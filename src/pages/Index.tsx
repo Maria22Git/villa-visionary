@@ -3,6 +3,7 @@ import { Header } from '@/components/landing/Header';
 import { Hero } from '@/components/landing/Hero';
 import { Benefits } from '@/components/landing/Benefits';
 import { ProjectSection } from '@/components/landing/ProjectSection';
+import { InteriorsGallery } from '@/components/landing/InteriorsGallery';
 import { PremiumFeatures } from '@/components/landing/PremiumFeatures';
 import { ArchitectSection } from '@/components/landing/ArchitectSection';
 import { CityConceptSection } from '@/components/landing/CityConceptSection';
@@ -26,6 +27,7 @@ const Index = () => {
           <Hero />
           <Benefits />
           <ProjectSection />
+          <InteriorsGallery />
           <PremiumFeatures />
           <ArchitectSection />
           <CityConceptSection />
