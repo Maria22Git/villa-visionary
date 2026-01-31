@@ -1,8 +1,11 @@
 import { useLanguage } from '@/contexts/LanguageContext';
+import { motion } from 'framer-motion';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Mountain, TreePine, Waves } from 'lucide-react';
 
 export function NatureSection() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
+  const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
 
   const features = [
     { key: 'mountains', icon: Mountain },
@@ -11,42 +14,57 @@ export function NatureSection() {
   ];
 
   return (
-    <section className="section-padding bg-gradient-to-br from-teal-500 to-navy-800 text-white relative overflow-hidden">
-      {/* Background pattern */}
-      <div className="absolute inset-0 opacity-10">
-        <div className="absolute top-0 left-0 w-96 h-96 bg-white rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
-        <div className="absolute bottom-0 right-0 w-96 h-96 bg-sky-400 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
+    <section ref={ref} className="section-editorial relative overflow-hidden">
+      {/* Soft blue cinematic gradient */}
+      <div className="absolute inset-0 bg-gradient-to-br from-[hsl(192,35%,45%)] via-[hsl(204,50%,55%)] to-[hsl(210,60%,65%)]" />
+      
+      {/* Decorative orbs */}
+      <div className="absolute inset-0 pointer-events-none">
+        <div className="absolute top-0 left-0 w-96 h-96 bg-white/10 rounded-full blur-3xl -translate-x-1/2 -translate-y-1/2" />
+        <div className="absolute bottom-0 right-0 w-80 h-80 bg-sky-200/20 rounded-full blur-3xl translate-x-1/2 translate-y-1/2" />
       </div>
 
       <div className="container-wide relative z-10">
-        <div className="max-w-3xl mx-auto text-center">
-          <div className="text-6xl mb-6">🌿</div>
-          <h2 className="text-section-title mb-6">
+        <motion.div
+          initial={{ opacity: 0, y: 40 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="max-w-3xl mx-auto text-center"
+        >
+          <span className="text-architectural text-white/70 mb-6 block">
+            {language === 'ru' ? 'Природа' : language === 'en' ? 'Nature' : 'Doğa'}
+          </span>
+          
+          <h2 className="text-section-title text-white mb-8">
             {t('nature.title')}
           </h2>
-          <p className="text-white/80 text-lg mb-10">
+          
+          <p className="text-white/70 text-lg font-light leading-relaxed mb-12">
             {t('nature.description')}
           </p>
 
-          <div className="grid sm:grid-cols-3 gap-6 mb-10">
-            {features.map((feature) => {
+          <div className="grid sm:grid-cols-3 gap-6 mb-12">
+            {features.map((feature, index) => {
               const Icon = feature.icon;
               return (
-                <div
+                <motion.div
                   key={feature.key}
-                  className="p-6 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20"
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                  className="p-8 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20"
                 >
-                  <Icon size={32} className="mx-auto mb-3 text-sky-200" />
-                  <p className="font-medium">{t(`nature.${feature.key}`)}</p>
-                </div>
+                  <Icon size={32} className="mx-auto mb-4 text-white/80" strokeWidth={1.25} />
+                  <p className="font-light text-white">{t(`nature.${feature.key}`)}</p>
+                </motion.div>
               );
             })}
           </div>
 
-          <p className="text-white/90 italic font-display text-xl">
+          <p className="font-editorial text-2xl text-white/90 italic">
             {t('nature.peace')}
           </p>
-        </div>
+        </motion.div>
       </div>
     </section>
   );

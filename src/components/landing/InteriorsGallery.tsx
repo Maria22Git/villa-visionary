@@ -1,202 +1,180 @@
 import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { X, ChevronLeft, ChevronRight, ZoomIn } from 'lucide-react';
+import { motion, AnimatePresence } from 'framer-motion';
+import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { X, ChevronLeft, ChevronRight } from 'lucide-react';
 
-// Import all interior images
-import livingRoom1 from '@/assets/interiors/living-room-1.jpg';
-import livingRoom2 from '@/assets/interiors/living-room-2.jpg';
+// Import images
+import bathroom from '@/assets/interiors/bathroom.png';
 import bedroom1 from '@/assets/interiors/bedroom-1.jpg';
 import bedroom2 from '@/assets/interiors/bedroom-2.png';
 import bedroom3 from '@/assets/interiors/bedroom-3.jpg';
 import bedroom4 from '@/assets/interiors/bedroom-4.png';
-import bathroom from '@/assets/interiors/bathroom.png';
+import living1 from '@/assets/interiors/living-room-1.jpg';
+import living2 from '@/assets/interiors/living-room-2.jpg';
 
 interface GalleryImage {
   src: string;
   category: string;
-  label: { ru: string; en: string; tr: string };
+  span?: string;
 }
 
 export function InteriorsGallery() {
-  const { t, language } = useLanguage();
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const [activeCategory, setActiveCategory] = useState('all');
+  const { language } = useLanguage();
+  const { ref, isInView } = useScrollReveal({ threshold: 0.1 });
+  const [selectedImage, setSelectedImage] = useState<number | null>(null);
+
+  const categories = {
+    ru: { living: 'Гостиная', bedroom: 'Спальня', bathroom: 'Ванная' },
+    en: { living: 'Living', bedroom: 'Bedroom', bathroom: 'Bathroom' },
+    tr: { living: 'Salon', bedroom: 'Yatak Odası', bathroom: 'Banyo' },
+  };
+
+  const cat = categories[language];
 
   const images: GalleryImage[] = [
-    { src: livingRoom1, category: 'living', label: { ru: 'Гостиная', en: 'Living Room', tr: 'Oturma Odası' } },
-    { src: livingRoom2, category: 'living', label: { ru: 'Гостиная и кухня', en: 'Living & Kitchen', tr: 'Salon ve Mutfak' } },
-    { src: bedroom1, category: 'bedroom', label: { ru: 'Мастер-спальня', en: 'Master Bedroom', tr: 'Ana Yatak Odası' } },
-    { src: bedroom2, category: 'bedroom', label: { ru: 'Спальня', en: 'Bedroom', tr: 'Yatak Odası' } },
-    { src: bedroom3, category: 'bedroom', label: { ru: 'Дизайнерская спальня', en: 'Designer Bedroom', tr: 'Tasarım Yatak Odası' } },
-    { src: bedroom4, category: 'bedroom', label: { ru: 'Рабочая зона', en: 'Work Area', tr: 'Çalışma Alanı' } },
-    { src: bathroom, category: 'bathroom', label: { ru: 'Ванная комната', en: 'Bathroom', tr: 'Banyo' } },
+    { src: living1, category: cat.living, span: 'col-span-2 row-span-2' },
+    { src: bedroom1, category: cat.bedroom, span: 'col-span-1 row-span-1' },
+    { src: bathroom, category: cat.bathroom, span: 'col-span-1 row-span-1' },
+    { src: bedroom3, category: cat.bedroom, span: 'col-span-1 row-span-2' },
+    { src: living2, category: cat.living, span: 'col-span-1 row-span-1' },
+    { src: bedroom2, category: cat.bedroom, span: 'col-span-1 row-span-1' },
   ];
 
-  const categories = [
-    { key: 'all', label: { ru: 'Все', en: 'All', tr: 'Tümü' } },
-    { key: 'living', label: { ru: 'Гостиная', en: 'Living', tr: 'Salon' } },
-    { key: 'bedroom', label: { ru: 'Спальни', en: 'Bedrooms', tr: 'Yatak Odaları' } },
-    { key: 'bathroom', label: { ru: 'Ванные', en: 'Bathrooms', tr: 'Banyolar' } },
-  ];
-
-  const filteredImages = activeCategory === 'all' 
-    ? images 
-    : images.filter(img => img.category === activeCategory);
-
-  const openModal = (index: number) => {
-    setCurrentIndex(index);
-    setIsModalOpen(true);
-  };
-
-  const nextImage = () => {
-    setCurrentIndex((prev) => (prev + 1) % filteredImages.length);
-  };
-
-  const prevImage = () => {
-    setCurrentIndex((prev) => (prev - 1 + filteredImages.length) % filteredImages.length);
+  const navigateGallery = (direction: 'prev' | 'next') => {
+    if (selectedImage === null) return;
+    const newIndex = direction === 'next' 
+      ? (selectedImage + 1) % images.length
+      : (selectedImage - 1 + images.length) % images.length;
+    setSelectedImage(newIndex);
   };
 
   return (
-    <section className="section-padding bg-navy-900 relative overflow-hidden">
-      {/* Decorative gradient */}
-      <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-background to-transparent" />
-      
+    <section ref={ref} className="section-editorial bg-background relative overflow-hidden">
+      {/* Subtle Background */}
+      <div className="absolute inset-0 bg-gradient-atmosphere" />
+
       <div className="container-wide relative z-10">
-        <div className="text-center mb-12">
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6">
-            <span className="text-2xl">✨</span>
-            <span className="text-white/90 text-sm font-medium">
-              {language === 'ru' ? 'Премиум интерьеры' : language === 'en' ? 'Premium Interiors' : 'Premium İç Mekanlar'}
-            </span>
-          </div>
-          
-          <h2 className="text-section-title text-white mb-6">
-            {language === 'ru' ? 'Роскошь в каждой детали' : language === 'en' ? 'Luxury in Every Detail' : 'Her Detayda Lüks'}
-          </h2>
-          
-          <p className="text-white/70 text-lg max-w-2xl mx-auto mb-8">
+        {/* Header */}
+        <motion.div
+          initial={{ opacity: 0, y: 30 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.8 }}
+          className="mb-16"
+        >
+          <span className="text-architectural text-primary mb-4 block">
+            {language === 'ru' ? 'Интерьеры' : language === 'en' ? 'Interiors' : 'İç Mekanlar'}
+          </span>
+          <h2 className="text-section-title text-navy-900 max-w-2xl">
             {language === 'ru' 
-              ? 'Эксклюзивные интерьеры от ведущих дизайнеров Турции. Каждая вилла — произведение искусства.' 
+              ? 'Современный дизайн, вдохновлённый природой' 
               : language === 'en'
-              ? "Exclusive interiors by Turkey's leading designers. Each villa is a work of art."
-              : "Türkiye'nin önde gelen tasarımcılarından özel iç mekanlar. Her villa bir sanat eseri."}
-          </p>
+              ? 'Modern design inspired by nature'
+              : 'Doğadan ilham alan modern tasarım'}
+          </h2>
+        </motion.div>
 
-          {/* Category filter */}
-          <div className="flex flex-wrap justify-center gap-3 mb-10">
-            {categories.map((cat) => (
-              <button
-                key={cat.key}
-                onClick={() => setActiveCategory(cat.key)}
-                className={`px-5 py-2.5 rounded-full text-sm font-medium transition-all ${
-                  activeCategory === cat.key
-                    ? 'bg-primary text-white shadow-glow'
-                    : 'bg-white/10 text-white/80 hover:bg-white/20'
-                }`}
-              >
-                {cat.label[language as keyof typeof cat.label]}
-              </button>
-            ))}
-          </div>
-        </div>
-
-        {/* Gallery Grid - Masonry-like layout */}
-        <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4 auto-rows-[200px] md:auto-rows-[250px]">
-          {filteredImages.map((image, index) => (
-            <button
+        {/* Masonry Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px] md:auto-rows-[240px]">
+          {images.map((image, index) => (
+            <motion.button
               key={index}
-              onClick={() => openModal(index)}
-              className={`group relative rounded-2xl overflow-hidden shadow-large hover:shadow-glow transition-all duration-300 ${
-                index === 0 || index === 3 ? 'row-span-2' : ''
-              } ${index === 1 ? 'col-span-2' : ''}`}
+              initial={{ opacity: 0, y: 30 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: index * 0.1 }}
+              onClick={() => setSelectedImage(index)}
+              className={`group relative overflow-hidden rounded-2xl ${image.span || ''}`}
             >
               <img
                 src={image.src}
-                alt={image.label[language as keyof typeof image.label]}
-                className="w-full h-full object-cover group-hover:scale-110 transition-transform duration-500"
+                alt={image.category}
+                className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
               />
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-navy-900/20 to-transparent opacity-60 group-hover:opacity-80 transition-opacity" />
               
-              {/* Zoom icon */}
-              <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
-                <div className="w-14 h-14 rounded-full bg-white/20 backdrop-blur-sm flex items-center justify-center">
-                  <ZoomIn size={24} className="text-white" />
-                </div>
-              </div>
+              {/* Hover Overlay */}
+              <div className="absolute inset-0 bg-navy-900/0 group-hover:bg-navy-900/40 transition-colors duration-500" />
               
-              {/* Label */}
-              <div className="absolute bottom-4 left-4 right-4">
-                <span className="inline-block px-3 py-1.5 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm font-medium">
-                  {image.label[language as keyof typeof image.label]}
+              {/* Category Label */}
+              <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
+                <span className="px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm text-navy-900 text-xs font-medium tracking-wide">
+                  {image.category}
                 </span>
               </div>
-            </button>
+
+              {/* Corner Accent */}
+              <div className="absolute top-0 right-0 w-20 h-20 opacity-0 group-hover:opacity-100 transition-opacity duration-500">
+                <div className="absolute top-4 right-4 w-8 h-8 border-t-2 border-r-2 border-white/60" />
+              </div>
+            </motion.button>
           ))}
         </div>
       </div>
 
-      {/* Modal */}
-      {isModalOpen && (
-        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/95 backdrop-blur-md animate-fade-in">
-          <button
-            onClick={() => setIsModalOpen(false)}
-            className="absolute top-4 right-4 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white z-10"
+      {/* Lightbox Modal */}
+      <AnimatePresence>
+        {selectedImage !== null && (
+          <motion.div
+            initial={{ opacity: 0 }}
+            animate={{ opacity: 1 }}
+            exit={{ opacity: 0 }}
+            transition={{ duration: 0.3 }}
+            className="fixed inset-0 z-50 flex items-center justify-center bg-navy-900/95 backdrop-blur-xl p-4"
+            onClick={() => setSelectedImage(null)}
           >
-            <X size={24} />
-          </button>
+            {/* Close Button */}
+            <button
+              onClick={() => setSelectedImage(null)}
+              className="absolute top-6 right-6 p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white"
+            >
+              <X size={20} />
+            </button>
 
-          <button
-            onClick={prevImage}
-            className="absolute left-4 p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white"
-          >
-            <ChevronLeft size={28} />
-          </button>
+            {/* Navigation */}
+            <button
+              onClick={(e) => { e.stopPropagation(); navigateGallery('prev'); }}
+              className="absolute left-4 md:left-8 p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white"
+            >
+              <ChevronLeft size={24} />
+            </button>
 
-          <div className="max-w-6xl w-full max-h-[85vh] relative">
-            <img
-              src={filteredImages[currentIndex].src}
-              alt={filteredImages[currentIndex].label[language as keyof typeof filteredImages[0]['label']]}
-              className="w-full h-full object-contain rounded-2xl"
+            <motion.img
+              key={selectedImage}
+              initial={{ opacity: 0, scale: 0.95 }}
+              animate={{ opacity: 1, scale: 1 }}
+              exit={{ opacity: 0, scale: 0.95 }}
+              transition={{ duration: 0.3 }}
+              src={images[selectedImage].src}
+              alt={images[selectedImage].category}
+              className="max-h-[80vh] max-w-[90vw] object-contain rounded-2xl shadow-cinematic"
+              onClick={(e) => e.stopPropagation()}
             />
-            
-            {/* Caption */}
-            <div className="absolute bottom-6 left-1/2 -translate-x-1/2">
-              <span className="px-6 py-3 rounded-full bg-navy-900/80 backdrop-blur-sm text-white font-medium">
-                {filteredImages[currentIndex].label[language as keyof typeof filteredImages[0]['label']]}
-              </span>
+
+            <button
+              onClick={(e) => { e.stopPropagation(); navigateGallery('next'); }}
+              className="absolute right-4 md:right-8 p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white"
+            >
+              <ChevronRight size={24} />
+            </button>
+
+            {/* Thumbnails */}
+            <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-2">
+              {images.map((img, index) => (
+                <button
+                  key={index}
+                  onClick={(e) => { e.stopPropagation(); setSelectedImage(index); }}
+                  className={`w-16 h-12 rounded-lg overflow-hidden border-2 transition-all ${
+                    selectedImage === index
+                      ? 'border-white opacity-100'
+                      : 'border-transparent opacity-50 hover:opacity-80'
+                  }`}
+                >
+                  <img src={img.src} alt="" className="w-full h-full object-cover" />
+                </button>
+              ))}
             </div>
-          </div>
-
-          <button
-            onClick={nextImage}
-            className="absolute right-4 p-4 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white"
-          >
-            <ChevronRight size={28} />
-          </button>
-
-          {/* Thumbnails */}
-          <div className="absolute bottom-6 left-1/2 -translate-x-1/2 flex gap-2 mt-4 max-w-full overflow-x-auto px-4 pb-2">
-            {filteredImages.map((img, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`flex-shrink-0 w-16 h-12 md:w-20 md:h-14 rounded-lg overflow-hidden border-2 transition-all ${
-                  currentIndex === index
-                    ? 'border-primary shadow-glow'
-                    : 'border-transparent opacity-50 hover:opacity-100'
-                }`}
-              >
-                <img
-                  src={img.src}
-                  alt=""
-                  className="w-full h-full object-cover"
-                />
-              </button>
-            ))}
-          </div>
-        </div>
-      )}
+          </motion.div>
+        )}
+      </AnimatePresence>
     </section>
   );
 }
