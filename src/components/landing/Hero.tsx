@@ -1,15 +1,10 @@
 import { useLanguage } from '@/contexts/LanguageContext';
-import { Check, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
+import { motion } from 'framer-motion';
 import heroImage from '@/assets/hero-villa.jpg';
 
 export function Hero() {
   const { t } = useLanguage();
-
-  const features = [
-    { key: 'turnkey', icon: '👉' },
-    { key: 'nohidden', icon: '👉' },
-    { key: 'developer', icon: '👉' },
-  ];
 
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
@@ -18,78 +13,146 @@ export function Hero() {
     }
   };
 
+  const features = [
+    { key: 'turnkey', label: t('hero.turnkey') },
+    { key: 'nohidden', label: t('hero.nohidden') },
+    { key: 'developer', label: t('hero.developer') },
+  ];
+
   return (
-    <section className="relative min-h-screen flex items-center justify-center overflow-hidden">
-      {/* Background Image */}
-      <div className="absolute inset-0">
+    <section className="relative min-h-screen flex items-end overflow-hidden">
+      {/* Background with Parallax */}
+      <motion.div 
+        className="absolute inset-0"
+        initial={{ scale: 1.1 }}
+        animate={{ scale: 1 }}
+        transition={{ duration: 1.5, ease: [0.4, 0, 0.2, 1] }}
+      >
         <img
           src={heroImage}
           alt="Victoria Villas"
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-900/80 via-navy-900/60 to-navy-900/80" />
+        {/* Cinematic Gradient Overlay */}
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-900/40 via-navy-900/20 to-navy-900/95" />
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-900/60 via-transparent to-transparent" />
+      </motion.div>
+
+      {/* Ornamental Elements */}
+      <div className="absolute top-0 left-0 w-full h-32 bg-gradient-to-b from-navy-900/40 to-transparent" />
+      <div className="absolute top-1/4 right-12 hidden xl:block">
+        <motion.div
+          initial={{ opacity: 0, scale: 0.8 }}
+          animate={{ opacity: 0.15, scale: 1 }}
+          transition={{ delay: 1, duration: 1.5 }}
+          className="w-64 h-64 rounded-full border border-white/20 animate-pulse-soft"
+        />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container-wide pt-24 pb-16 md:pt-32 md:pb-24">
-        <div className="max-w-4xl mx-auto text-center">
-          {/* Small label */}
-          <div className="inline-flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20 mb-6 animate-fade-in">
-            <span className="text-2xl">🇹🇷</span>
-            <span className="text-white/90 text-sm font-medium">
+      <div className="relative z-10 container-wide pb-20 pt-40 md:pb-28 md:pt-48">
+        <div className="max-w-5xl">
+          {/* Micro Label */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.3, duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
+            className="flex items-center gap-4 mb-8"
+          >
+            <span className="text-3xl">🇹🇷</span>
+            <span className="text-architectural text-white/70">
               {t('hero.subtitle')}
             </span>
+            <div className="w-16 h-px bg-white/20" />
+          </motion.div>
+
+          {/* Main Title — Oversized Editorial */}
+          <div className="overflow-hidden mb-6">
+            <motion.h1
+              initial={{ y: '100%' }}
+              animate={{ y: 0 }}
+              transition={{ delay: 0.5, duration: 1, ease: [0.4, 0, 0.2, 1] }}
+              className="text-hero text-white"
+            >
+              {t('hero.title')}
+            </motion.h1>
           </div>
 
-          {/* Main Title */}
-          <h1 className="text-hero text-white mb-6 animate-slide-up">
-            {t('hero.title')}
-          </h1>
-
           {/* Headline */}
-          <p className="text-xl md:text-2xl lg:text-3xl font-display text-white/90 mb-4 animate-slide-up" style={{ animationDelay: '0.1s' }}>
+          <motion.p
+            initial={{ opacity: 0, y: 30 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 0.8, duration: 0.8 }}
+            className="font-editorial text-2xl md:text-3xl lg:text-4xl text-white/90 font-light tracking-[-0.01em] leading-snug mb-6 max-w-3xl"
+          >
             {t('hero.headline')}
-          </p>
+          </motion.p>
 
           {/* Description */}
-          <p className="text-lg text-white/70 mb-8 max-w-2xl mx-auto animate-slide-up" style={{ animationDelay: '0.2s' }}>
+          <motion.p
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1, duration: 0.8 }}
+            className="text-lg text-white/60 font-light mb-12 max-w-2xl leading-relaxed"
+          >
             {t('hero.description')}
-          </p>
+          </motion.p>
 
-          {/* Features */}
-          <div className="flex flex-wrap justify-center gap-4 mb-10 animate-slide-up" style={{ animationDelay: '0.3s' }}>
+          {/* Benefits Row — Editorial Aligned */}
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.2, duration: 0.8 }}
+            className="flex flex-wrap gap-4 mb-14"
+          >
             {features.map((feature, index) => (
               <div
                 key={feature.key}
-                className="flex items-center gap-2 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm border border-white/20"
+                className="flex items-center gap-3 px-5 py-3 rounded-full bg-white/5 backdrop-blur-sm border border-white/10"
               >
-                <span>{feature.icon}</span>
-                <span className="text-white/90 text-sm">
-                  {t(`hero.${feature.key}`)}
+                <div className="w-1.5 h-1.5 rounded-full bg-primary" />
+                <span className="text-white/80 text-sm font-light tracking-wide">
+                  {feature.label}
                 </span>
               </div>
             ))}
-          </div>
+          </motion.div>
 
           {/* CTA */}
-          <div className="animate-slide-up" style={{ animationDelay: '0.4s' }}>
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ delay: 1.4, duration: 0.8 }}
+          >
             <button
               onClick={scrollToContact}
-              className="btn-primary text-lg px-10 py-5 inline-flex items-center gap-3"
+              className="group btn-primary text-base px-12 py-5 inline-flex items-center gap-4"
             >
               {t('hero.cta')}
-              <ArrowRight size={20} />
+              <ArrowRight 
+                size={18} 
+                className="transition-transform duration-300 group-hover:translate-x-1" 
+              />
             </button>
-          </div>
+          </motion.div>
         </div>
       </div>
 
-      {/* Scroll indicator */}
-      <div className="absolute bottom-8 left-1/2 -translate-x-1/2 animate-float">
-        <div className="w-6 h-10 rounded-full border-2 border-white/30 flex items-start justify-center p-2">
-          <div className="w-1.5 h-3 bg-white/50 rounded-full animate-bounce" />
-        </div>
-      </div>
+      {/* Scroll Indicator */}
+      <motion.div
+        initial={{ opacity: 0 }}
+        animate={{ opacity: 1 }}
+        transition={{ delay: 2, duration: 1 }}
+        className="absolute bottom-8 right-8 hidden md:flex flex-col items-center gap-3"
+      >
+        <span className="text-micro text-white/40 tracking-widest uppercase rotate-90 origin-center translate-x-6">
+          Scroll
+        </span>
+        <div className="w-px h-16 bg-gradient-to-b from-white/40 to-transparent" />
+      </motion.div>
+
+      {/* Bottom Fade Transition */}
+      <div className="absolute bottom-0 left-0 right-0 h-32 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 }
