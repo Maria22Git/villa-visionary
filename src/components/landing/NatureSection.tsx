@@ -1,17 +1,12 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Mountain, TreePine, Waves } from 'lucide-react';
 
 export function NatureSection() {
   const { t, language } = useLanguage();
   const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
 
-  const features = [
-    { key: 'mountains', icon: Mountain },
-    { key: 'forests', icon: TreePine },
-    { key: 'views', icon: Waves },
-  ];
+  const features = ['mountains', 'forests', 'views'];
 
   return (
     <section ref={ref} className="section-editorial relative overflow-hidden">
@@ -43,25 +38,21 @@ export function NatureSection() {
             {t('nature.description')}
           </p>
 
-          <div className="grid sm:grid-cols-3 gap-6 mb-12">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <motion.div
-                  key={feature.key}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                  className="p-8 rounded-3xl bg-white/10 backdrop-blur-sm border border-white/20"
-                >
-                  <Icon size={32} className="mx-auto mb-4 text-white/80" strokeWidth={1.25} />
-                  <p className="font-light text-white">{t(`nature.${feature.key}`)}</p>
-                </motion.div>
-              );
-            })}
+          <div className="space-y-4 mb-12">
+            {features.map((key, index) => (
+              <motion.p
+                key={key}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
+                className="text-white/90 text-xl font-light"
+              >
+                {t(`nature.${key}`)}
+              </motion.p>
+            ))}
           </div>
 
-          <p className="font-editorial text-2xl text-white/90 italic">
+          <p className="font-editorial text-2xl text-white italic">
             {t('nature.peace')}
           </p>
         </motion.div>

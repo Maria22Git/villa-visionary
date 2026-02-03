@@ -1,18 +1,10 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { MapPin, Clock, Building } from 'lucide-react';
 
 export function CityConceptSection() {
   const { t, language } = useLanguage();
   const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
-
-  const nearbyItems = [
-    { emoji: '🏖️', label: language === 'ru' ? 'Пляжи' : language === 'en' ? 'Beaches' : 'Plajlar' },
-    { emoji: '🏥', label: language === 'ru' ? 'Медицина' : language === 'en' ? 'Healthcare' : 'Sağlık' },
-    { emoji: '🏫', label: language === 'ru' ? 'Школы' : language === 'en' ? 'Schools' : 'Okullar' },
-    { emoji: '🛒', label: language === 'ru' ? 'Магазины' : language === 'en' ? 'Shops' : 'Mağazalar' },
-  ];
 
   return (
     <section ref={ref} className="relative overflow-hidden">
@@ -43,12 +35,9 @@ export function CityConceptSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8 }}
             >
-              <div className="inline-flex items-center gap-3 mb-8">
-                <MapPin size={18} className="text-sky-400" />
-                <span className="text-architectural text-white/70">
-                  {t('city.location')}
-                </span>
-              </div>
+              <span className="text-architectural text-white/70 mb-8 block">
+                {t('city.location')}
+              </span>
 
               <h2 className="text-section-title text-white mb-8">
                 {t('city.title')}
@@ -58,95 +47,56 @@ export function CityConceptSection() {
                 {t('city.description')}
               </p>
 
-              <div className="space-y-5 mb-10">
-                <motion.div 
+              <div className="space-y-4 mb-10">
+                <motion.p 
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.3 }}
-                  className="flex items-center gap-5 p-5 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10"
+                  className="text-white/80 text-lg font-light"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
-                    <Clock size={22} className="text-sky-400" strokeWidth={1.5} />
-                  </div>
-                  <span className="text-white font-light text-lg">{t('city.center')}</span>
-                </motion.div>
+                  {t('city.center')}
+                </motion.p>
                 
-                <motion.div 
+                <motion.p 
                   initial={{ opacity: 0, x: -20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.4 }}
-                  className="flex items-center gap-5 p-5 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10"
+                  className="text-white/80 text-lg font-light"
                 >
-                  <div className="w-12 h-12 rounded-xl bg-white/10 flex items-center justify-center">
-                    <Building size={22} className="text-sky-400" strokeWidth={1.5} />
-                  </div>
-                  <span className="text-white font-light text-lg">{t('city.amenities')}</span>
-                </motion.div>
+                  {language === 'ru' 
+                    ? 'Все необходимое в пешей доступности' 
+                    : language === 'en' 
+                    ? 'Everything you need within walking distance' 
+                    : 'İhtiyacınız olan her şey yürüme mesafesinde'}
+                </motion.p>
               </div>
 
-              <p className="text-white/70 italic font-editorial text-xl">
+              <p className="text-white/90 italic font-editorial text-xl">
                 {t('city.ecosystem')}
               </p>
             </motion.div>
 
-            {/* Visual Element */}
+            {/* Visual Element — Abstract 15-minute concept */}
             <motion.div
               initial={{ opacity: 0, scale: 0.9 }}
               animate={isInView ? { opacity: 1, scale: 1 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative"
+              className="relative hidden lg:flex items-center justify-center"
             >
-              <div className="relative aspect-square">
+              <div className="relative">
                 {/* Central Circle */}
-                <div className="absolute inset-0 flex items-center justify-center">
-                  <div className="w-48 h-48 rounded-full bg-white/5 backdrop-blur-md border border-white/20 flex items-center justify-center">
-                    <div className="text-center">
-                      <span className="font-editorial text-5xl text-white block">15</span>
-                      <span className="text-sm text-white/60 tracking-widest uppercase">
-                        {language === 'ru' ? 'минут' : language === 'en' ? 'minutes' : 'dakika'}
-                      </span>
-                    </div>
+                <div className="w-64 h-64 rounded-full bg-white/5 backdrop-blur-md border border-white/20 flex items-center justify-center">
+                  <div className="text-center">
+                    <span className="font-editorial text-6xl text-white block">15</span>
+                    <span className="text-sm text-white/60 tracking-widest uppercase">
+                      {language === 'ru' ? 'минут' : language === 'en' ? 'minutes' : 'dakika'}
+                    </span>
                   </div>
                 </div>
-
-                {/* Orbiting Items */}
-                <div className="absolute inset-0">
-                  {nearbyItems.map((item, index) => {
-                    const angle = (index * 90) - 45;
-                    const radius = 42;
-                    const x = 50 + radius * Math.cos((angle * Math.PI) / 180);
-                    const y = 50 + radius * Math.sin((angle * Math.PI) / 180);
-                    
-                    return (
-                      <motion.div
-                        key={index}
-                        initial={{ opacity: 0, scale: 0 }}
-                        animate={isInView ? { opacity: 1, scale: 1 } : {}}
-                        transition={{ duration: 0.5, delay: 0.5 + index * 0.1 }}
-                        className="absolute w-20 -translate-x-1/2 -translate-y-1/2"
-                        style={{ left: `${x}%`, top: `${y}%` }}
-                      >
-                        <div className="flex flex-col items-center gap-2">
-                          <span className="text-2xl">{item.emoji}</span>
-                          <span className="text-xs text-white/70 whitespace-nowrap">{item.label}</span>
-                        </div>
-                      </motion.div>
-                    );
-                  })}
-                </div>
-
-                {/* Connecting Lines */}
-                <svg className="absolute inset-0 w-full h-full" viewBox="0 0 100 100">
-                  <circle 
-                    cx="50" 
-                    cy="50" 
-                    r="35" 
-                    fill="none" 
-                    stroke="rgba(255,255,255,0.1)" 
-                    strokeWidth="0.5"
-                    strokeDasharray="2,4"
-                  />
-                </svg>
+                
+                {/* Decorative rings */}
+                <div className="absolute inset-0 -m-8 rounded-full border border-white/10" />
+                <div className="absolute inset-0 -m-16 rounded-full border border-white/5" />
               </div>
             </motion.div>
           </div>
