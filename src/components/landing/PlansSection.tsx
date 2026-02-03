@@ -105,16 +105,16 @@ export function PlansSection() {
             </div>
           </motion.div>
 
-          {/* Villa 5+1 */}
+          {/* Villa 5+1 - Fixed readability */}
           <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="relative p-8 rounded-3xl bg-gradient-to-br from-navy-900 to-navy-main border border-white/10 shadow-large"
+            className="relative p-8 rounded-3xl bg-gradient-to-br from-navy-900 to-navy-main border border-white/20 shadow-large"
           >
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-editorial text-3xl text-white">{villa5Plus1.title}</h3>
-              <span className="px-4 py-2 rounded-full bg-white/10 text-sky-light font-bold text-lg">
+              <span className="px-4 py-2 rounded-full bg-sky-light/20 text-sky-light font-bold text-lg border border-sky-light/30">
                 {villa5Plus1.area}
               </span>
             </div>
@@ -123,7 +123,7 @@ export function PlansSection() {
               {villa5Plus1.features.map((feature, index) => (
                 <div key={index} className="flex items-center gap-2">
                   <Check size={16} className="text-sky-light flex-shrink-0" />
-                  <span className="text-white/80 text-sm">{feature}</span>
+                  <span className="text-white text-sm">{feature}</span>
                 </div>
               ))}
             </div>

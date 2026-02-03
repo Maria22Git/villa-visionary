@@ -9,6 +9,10 @@ import villaExterior from '@/assets/villa-exterior.jpg';
 import villaArchitecture from '@/assets/villa-architecture.jpg';
 import balconyView from '@/assets/balcony-view.jpg';
 import mountainsPanorama from '@/assets/mountains-panorama.jpg';
+import villaEntrance from '@/assets/villa-entrance.jpg';
+import villaMountains from '@/assets/villa-mountains.jpg';
+import villaSitePlan from '@/assets/villa-site-plan.jpg';
+import villaPoolFacade from '@/assets/villa-pool-facade.jpg';
 
 export function ProjectSection() {
   const { t, language } = useLanguage();
@@ -25,11 +29,14 @@ export function ProjectSection() {
   ];
 
   const galleryImages = [
+    { src: villaAerial, label: language === 'ru' ? 'Панорама на море' : language === 'en' ? 'Sea Panorama' : 'Deniz Panoraması' },
+    { src: villaMountains, label: language === 'ru' ? 'Вид на горы' : language === 'en' ? 'Mountain View' : 'Dağ Manzarası' },
+    { src: villaEntrance, label: language === 'ru' ? 'Вход' : language === 'en' ? 'Entrance' : 'Giriş' },
+    { src: villaPoolFacade, label: language === 'ru' ? 'Фасад с бассейном' : language === 'en' ? 'Pool Facade' : 'Havuz Cephesi' },
     { src: poolView, label: language === 'ru' ? 'Бассейн' : language === 'en' ? 'Pool' : 'Havuz' },
     { src: villaExterior, label: language === 'ru' ? 'Экстерьер' : language === 'en' ? 'Exterior' : 'Dış Görünüm' },
-    { src: villaArchitecture, label: language === 'ru' ? 'Архитектура' : language === 'en' ? 'Architecture' : 'Mimari' },
-    { src: balconyView, label: language === 'ru' ? 'Виды' : language === 'en' ? 'Views' : 'Manzara' },
-    { src: mountainsPanorama, label: language === 'ru' ? 'Панорама' : language === 'en' ? 'Panorama' : 'Panorama' },
+    { src: villaSitePlan, label: language === 'ru' ? 'План участка' : language === 'en' ? 'Site Plan' : 'Vaziyet Planı' },
+    { src: mountainsPanorama, label: language === 'ru' ? 'Панорама гор' : language === 'en' ? 'Mountain Panorama' : 'Dağ Panoraması' },
   ];
 
   const nextSlide = () => {
@@ -58,21 +65,21 @@ export function ProjectSection() {
           <img
             src={villaAerial}
             alt="Victoria Villas Aerial View"
-            className="w-full h-full object-cover brightness-110"
+            className="w-full h-full object-cover"
           />
-          {/* Darkened Overlay for Readability */}
-          <div className="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/80 to-navy-900/50" />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy-900/90 via-navy-900/40 to-transparent" />
+          {/* Lighter overlay to show the beautiful image */}
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-navy-900/40 to-navy-900/20" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-900/60 via-transparent to-transparent" />
         </motion.div>
 
-        {/* Content */}
         <div className="relative z-10 container-wide h-full min-h-[90vh] flex items-end pb-20">
           <div className="grid lg:grid-cols-2 gap-16 items-end w-full">
-            {/* Left Column — Text */}
+            {/* Left Column — Text with dark backdrop */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
+              className="p-8 rounded-2xl bg-navy-900/80 backdrop-blur-sm"
             >
               <h2 className="text-editorial-xl text-white mb-8 leading-tight">
                 {t('project.title')}
