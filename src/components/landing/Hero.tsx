@@ -58,7 +58,7 @@ export function Hero() {
             className="text-white/80 text-lg md:text-xl uppercase tracking-[0.25em] font-light mb-10"
             style={{ textShadow: '0 2px 15px rgba(0, 29, 57, 0.4)' }}
           >
-            {language === 'ru' ? 'Элитные виллы в Алании' : language === 'en' ? 'Premium Villas in Alanya' : 'Alanya\'da Lüks Villalar'}
+            {language === 'ru' ? 'Виллы под гражданство Турции' : language === 'en' ? 'Villas for Turkish Citizenship' : 'Türk Vatandaşlığı İçin Villalar'}
           </motion.p>
           
           {/* Benefits - компактный список */}
