@@ -11,7 +11,6 @@ import { PlansSection } from '@/components/landing/PlansSection';
 import { WhiteBoxSection } from '@/components/landing/WhiteBoxSection';
 import { NatureSection } from '@/components/landing/NatureSection';
 import { SecuritySection } from '@/components/landing/SecuritySection';
-import { LifestyleSection } from '@/components/landing/LifestyleSection';
 import { DeveloperSection } from '@/components/landing/DeveloperSection';
 import { FAQSection } from '@/components/landing/FAQSection';
 import { StepsSection } from '@/components/landing/StepsSection';
@@ -35,7 +34,6 @@ const Index = () => {
           <WhiteBoxSection />
           <NatureSection />
           <SecuritySection />
-          <LifestyleSection />
           <DeveloperSection />
           <FAQSection />
           <StepsSection />
