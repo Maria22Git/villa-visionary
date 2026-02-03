@@ -8,96 +8,83 @@ export function CityConceptSection() {
   const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
 
   return (
-    <section ref={ref} className="relative overflow-hidden">
-      {/* Background with Location Map - More visible */}
-      <div className="absolute inset-0">
-        <motion.img
-          src={locationMap}
-          alt="Location Map"
-          className="w-full h-full object-cover"
-          initial={{ scale: 1.1 }}
-          animate={isInView ? { scale: 1 } : {}}
-          transition={{ duration: 1.5, ease: [0.4, 0, 0.2, 1] }}
-        />
-        {/* Lighter overlay to show map details */}
-        <div className="absolute inset-0 bg-gradient-to-r from-navy-900/70 via-navy-900/40 to-transparent" />
-      </div>
+    <section ref={ref} className="relative overflow-hidden bg-navy-900">
+      <div className="container-wide">
+        <div className="grid lg:grid-cols-5 min-h-[700px]">
+          {/* Left Side — Text Content (narrower) */}
+          <motion.div
+            initial={{ opacity: 0, x: -40 }}
+            animate={isInView ? { opacity: 1, x: 0 } : {}}
+            transition={{ duration: 0.8 }}
+            className="lg:col-span-2 py-16 lg:py-24 pr-8 flex flex-col justify-center"
+          >
+            <span className="text-architectural text-sky-400 mb-8 block">
+              {t('city.location')}
+            </span>
 
-      <div className="relative z-10 section-editorial">
-        <div className="container-wide">
-          <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            {/* Content - with dark backdrop for readability */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8 }}
-              className="p-8 rounded-2xl bg-navy-900/80 backdrop-blur-sm"
-            >
-              <span className="text-architectural text-sky-400 mb-8 block">
-                {t('city.location')}
-              </span>
+            <h2 className="text-section-title text-white mb-8">
+              {t('city.title')}
+            </h2>
+            
+            <p className="text-white/80 text-lg font-light leading-relaxed mb-8">
+              {t('city.description')}
+            </p>
 
-              <h2 className="text-section-title text-white mb-8">
-                {t('city.title')}
-              </h2>
+            <div className="space-y-4 mb-10">
+              <motion.p 
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.3 }}
+                className="text-white text-lg font-light flex items-center gap-3"
+              >
+                <span className="w-2 h-2 rounded-full bg-sky-light flex-shrink-0" />
+                {t('city.center')}
+              </motion.p>
               
-              <p className="text-white/90 text-lg font-light leading-relaxed mb-10">
-                {t('city.description')}
-              </p>
+              <motion.p 
+                initial={{ opacity: 0, x: -20 }}
+                animate={isInView ? { opacity: 1, x: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.4 }}
+                className="text-white text-lg font-light flex items-center gap-3"
+              >
+                <span className="w-2 h-2 rounded-full bg-sky-light flex-shrink-0" />
+                {language === 'ru' 
+                  ? 'Все необходимое в пешей доступности' 
+                  : language === 'en' 
+                  ? 'Everything you need within walking distance' 
+                  : 'İhtiyacınız olan her şey yürüme mesafesinde'}
+              </motion.p>
+            </div>
 
-              <div className="space-y-4 mb-10">
-                <motion.p 
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.3 }}
-                  className="text-white text-lg font-light"
-                >
-                  {t('city.center')}
-                </motion.p>
-                
-                <motion.p 
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={isInView ? { opacity: 1, x: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.4 }}
-                  className="text-white text-lg font-light"
-                >
-                  {language === 'ru' 
-                    ? 'Все необходимое в пешей доступности' 
-                    : language === 'en' 
-                    ? 'Everything you need within walking distance' 
-                    : 'İhtiyacınız olan her şey yürüme mesafesinde'}
-                </motion.p>
+            {/* 15-minute concept badge */}
+            <div className="inline-flex items-center gap-4 p-4 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/20 w-fit">
+              <div className="text-center">
+                <span className="font-editorial text-4xl text-sky-light block">15</span>
+                <span className="text-xs text-white/70 tracking-widest uppercase">
+                  {language === 'ru' ? 'минут' : language === 'en' ? 'minutes' : 'dakika'}
+                </span>
               </div>
-
-              <p className="text-white italic font-editorial text-xl">
+              <p className="text-white/90 text-sm font-light max-w-[180px]">
                 {t('city.ecosystem')}
               </p>
-            </motion.div>
+            </div>
+          </motion.div>
 
-            {/* Visual Element — 15-minute concept with map overlay */}
-            <motion.div
-              initial={{ opacity: 0, scale: 0.9 }}
-              animate={isInView ? { opacity: 1, scale: 1 } : {}}
-              transition={{ duration: 0.8, delay: 0.2 }}
-              className="relative hidden lg:flex items-center justify-center"
-            >
-              <div className="relative">
-                {/* Central Circle */}
-                <div className="w-64 h-64 rounded-full bg-white/10 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-large">
-                  <div className="text-center">
-                    <span className="font-editorial text-6xl text-white block">15</span>
-                    <span className="text-sm text-white/80 tracking-widest uppercase">
-                      {language === 'ru' ? 'минут' : language === 'en' ? 'minutes' : 'dakika'}
-                    </span>
-                  </div>
-                </div>
-                
-                {/* Decorative rings */}
-                <div className="absolute inset-0 -m-8 rounded-full border border-white/20" />
-                <div className="absolute inset-0 -m-16 rounded-full border border-white/10" />
-              </div>
-            </motion.div>
-          </div>
+          {/* Right Side — Full Map Image (wider, no overlay) */}
+          <motion.div
+            initial={{ opacity: 0, scale: 0.95 }}
+            animate={isInView ? { opacity: 1, scale: 1 } : {}}
+            transition={{ duration: 1, delay: 0.2 }}
+            className="lg:col-span-3 relative min-h-[400px] lg:min-h-full"
+          >
+            <img
+              src={locationMap}
+              alt="Location Map"
+              className="absolute inset-0 w-full h-full object-cover object-center"
+            />
+            {/* Very subtle gradient only at the left edge for seamless transition */}
+            <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-navy-900 to-transparent" />
+          </motion.div>
         </div>
       </div>
     </section>
