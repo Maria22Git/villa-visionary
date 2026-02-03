@@ -2,13 +2,18 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { ArrowRight } from 'lucide-react';
-import livingRoom from '@/assets/interiors/living-room-1.jpg';
+import happyFamily from '@/assets/happy-family.jpg';
 
 export function LifestyleSection() {
   const { t, language } = useLanguage();
   const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
 
-  const features = ['status', 'comfort', 'enjoyment', 'climate'];
+  const features = [
+    language === 'ru' ? 'Статус и приватность' : language === 'en' ? 'Status and privacy' : 'Statü ve mahremiyet',
+    language === 'ru' ? 'Комфортная среда' : language === 'en' ? 'Comfortable environment' : 'Konforlu ortam',
+    language === 'ru' ? 'Удовольствие от каждого дня' : language === 'en' ? 'Enjoyment every day' : 'Her gün keyif',
+    language === 'ru' ? 'Наслаждение климатом и горным воздухом' : language === 'en' ? 'Enjoying the climate and mountain air' : 'İklim ve dağ havasının tadını çıkarma',
+  ];
 
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
@@ -19,11 +24,11 @@ export function LifestyleSection() {
 
   return (
     <section ref={ref} className="relative overflow-hidden">
-      {/* Full-width background image */}
+      {/* Full-width background image — Happy Family */}
       <div className="absolute inset-0">
         <motion.img
-          src={livingRoom}
-          alt="Luxury Living Room"
+          src={happyFamily}
+          alt="Happy Family in Villa"
           className="w-full h-full object-cover"
           initial={{ scale: 1.1 }}
           animate={isInView ? { scale: 1 } : {}}
@@ -48,7 +53,7 @@ export function LifestyleSection() {
                 {t('lifestyle.title')}
               </h2>
               
-              <p className="text-white/60 text-lg font-light leading-relaxed mb-4">
+              <p className="text-white/70 text-lg font-light leading-relaxed mb-4">
                 {t('lifestyle.description')}
               </p>
               
@@ -64,15 +69,16 @@ export function LifestyleSection() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="space-y-4 mb-12"
             >
-              {features.map((key, index) => (
+              {features.map((feature, index) => (
                 <motion.p
-                  key={key}
+                  key={index}
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                  className="text-white/80 text-lg font-light"
+                  className="text-white text-lg font-light flex items-center gap-3"
                 >
-                  {t(`lifestyle.${key}`)}
+                  <span className="w-2 h-2 rounded-full bg-sky-light flex-shrink-0" />
+                  {feature}
                 </motion.p>
               ))}
             </motion.div>
@@ -81,14 +87,15 @@ export function LifestyleSection() {
               initial={{ opacity: 0, y: 20 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.6 }}
-              className="flex flex-col sm:flex-row items-start sm:items-center gap-8"
+              className="space-y-8"
             >
-              <p className="text-white/90 italic font-editorial text-2xl">
+              <p className="text-white italic font-editorial text-2xl">
                 {t('lifestyle.home')}
               </p>
+              
               <button
                 onClick={scrollToContact}
-                className="group btn-primary inline-flex items-center gap-3"
+                className="group btn-primary text-base px-10 py-5 inline-flex items-center gap-4"
               >
                 {t('hero.cta')}
                 <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />

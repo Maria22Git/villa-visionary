@@ -14,10 +14,12 @@ export function Hero() {
   };
 
   const benefits = [
+    language === 'ru' ? 'Виллы под гражданство Турции' : language === 'en' ? 'Villas for Turkish citizenship' : 'Türk vatandaşlığı için villalar',
+    language === 'ru' ? 'Напрямую от застройщика IKY Group' : language === 'en' ? 'Directly from developer IKY Group' : 'Doğrudan IKY Group geliştiricisinden',
+    language === 'ru' ? '40+ реализованных проектов' : language === 'en' ? '40+ completed projects' : '40+ tamamlanmış proje',
     language === 'ru' ? 'Беспроцентная рассрочка на 3 года' : language === 'en' ? 'Interest-free installments for 3 years' : '3 yıl faizsiz taksit',
     language === 'ru' ? 'Первоначальный взнос 30%' : language === 'en' ? '30% down payment' : '%30 peşinat',
     language === 'ru' ? 'Под ключ без скрытых расходов' : language === 'en' ? 'Turnkey with no hidden costs' : 'Gizli maliyet olmadan anahtar teslimi',
-    language === 'ru' ? 'Напрямую от застройщика' : language === 'en' ? 'Directly from developer' : 'Doğrudan geliştiriciden',
   ];
 
   return (

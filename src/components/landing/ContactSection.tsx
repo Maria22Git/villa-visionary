@@ -29,9 +29,9 @@ export function ContactSection() {
 
   return (
     <section id="contact" ref={ref} className="relative overflow-hidden">
-      {/* Muted Green Gradient Background — Final CTA */}
+      {/* Navy Blue Gradient Background — Corporate Colors */}
       <div className="absolute inset-0">
-        <div className="absolute inset-0 bg-gradient-to-br from-[hsl(160,35%,28%)] via-[hsl(160,35%,32%)] to-[hsl(165,30%,38%)]" />
+        <div className="absolute inset-0 bg-gradient-to-br from-navy-deep via-navy-main to-blue-architect" />
         {/* Subtle texture */}
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_20%,rgba(255,255,255,0.05),transparent_50%)]" />
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_70%_80%,rgba(255,255,255,0.03),transparent_50%)]" />
@@ -46,7 +46,7 @@ export function ContactSection() {
             transition={{ duration: 0.8 }}
             className="text-center mb-16"
           >
-            <span className="text-architectural text-white/60 mb-6 block">
+            <span className="text-architectural text-sky-light mb-6 block">
               {language === 'ru' ? 'Свяжитесь с нами' : language === 'en' ? 'Contact Us' : 'Bize Ulaşın'}
             </span>
             
@@ -58,7 +58,7 @@ export function ContactSection() {
                 : 'Villanızı tartışmaya hazır mısınız?'}
             </h2>
 
-            <p className="text-white/60 text-lg font-light max-w-xl mx-auto">
+            <p className="text-white/70 text-lg font-light max-w-xl mx-auto">
               {language === 'ru'
                 ? 'Оставьте заявку и мы свяжемся с вами в течение 24 часов'
                 : language === 'en'
@@ -91,7 +91,7 @@ export function ContactSection() {
                   href={whatsappLink}
                   target="_blank"
                   rel="noopener noreferrer"
-                  className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-[hsl(160,35%,30%)] font-medium hover:bg-white/90 transition-colors"
+                  className="inline-flex items-center gap-3 px-8 py-4 rounded-full bg-white text-navy-main font-medium hover:bg-white/90 transition-colors"
                 >
                   <MessageCircle size={20} />
                   {t('consultation.whatsapp')}
@@ -156,7 +156,7 @@ export function ContactSection() {
                     <Button
                       type="submit"
                       disabled={isSubmitting}
-                      className="w-full py-6 text-base rounded-full bg-white text-[hsl(160,35%,30%)] hover:bg-white/90 font-medium"
+                      className="w-full py-6 text-base rounded-full bg-white text-navy-main hover:bg-white/90 font-medium"
                     >
                       {isSubmitting ? (
                         <Loader2 className="animate-spin" size={20} />

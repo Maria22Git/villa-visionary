@@ -1,18 +1,44 @@
+import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { ChevronLeft, ChevronRight } from 'lucide-react';
 import villaAerial from '@/assets/villa-aerial.jpg';
+import poolView from '@/assets/pool-view.jpg';
+import villaExterior from '@/assets/villa-exterior.jpg';
+import villaArchitecture from '@/assets/villa-architecture.jpg';
+import balconyView from '@/assets/balcony-view.jpg';
+import mountainsPanorama from '@/assets/mountains-panorama.jpg';
 
 export function ProjectSection() {
   const { t, language } = useLanguage();
   const { ref, isInView } = useScrollReveal({ threshold: 0.15 });
+  const [currentSlide, setCurrentSlide] = useState(0);
 
-  const stats = [
-    { value: '3', label: language === 'ru' ? 'этажа' : language === 'en' ? 'floors' : 'kat' },
-    { value: '5', label: language === 'ru' ? 'спален' : language === 'en' ? 'bedrooms' : 'yatak odası' },
-    { value: '350', label: 'm²' },
-    { value: '€290K', label: language === 'ru' ? 'от' : language === 'en' ? 'from' : 'dan' },
+  const features = [
+    language === 'ru' ? 'Современная архитектура' : language === 'en' ? 'Modern architecture' : 'Modern mimari',
+    language === 'ru' ? 'Просторные планировки' : language === 'en' ? 'Spacious layouts' : 'Geniş planlar',
+    language === 'ru' ? 'Infinity-бассейн' : language === 'en' ? 'Infinity pool' : 'Sonsuzluk havuzu',
+    language === 'ru' ? 'Джакузи' : language === 'en' ? 'Jacuzzi' : 'Jakuzi',
+    language === 'ru' ? 'Зона барбекю' : language === 'en' ? 'BBQ zone' : 'Barbekü alanı',
+    language === 'ru' ? 'Парковка для авто' : language === 'en' ? 'Car parking' : 'Otopark',
   ];
+
+  const galleryImages = [
+    { src: poolView, label: language === 'ru' ? 'Бассейн' : language === 'en' ? 'Pool' : 'Havuz' },
+    { src: villaExterior, label: language === 'ru' ? 'Экстерьер' : language === 'en' ? 'Exterior' : 'Dış Görünüm' },
+    { src: villaArchitecture, label: language === 'ru' ? 'Архитектура' : language === 'en' ? 'Architecture' : 'Mimari' },
+    { src: balconyView, label: language === 'ru' ? 'Виды' : language === 'en' ? 'Views' : 'Manzara' },
+    { src: mountainsPanorama, label: language === 'ru' ? 'Панорама' : language === 'en' ? 'Panorama' : 'Panorama' },
+  ];
+
+  const nextSlide = () => {
+    setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
+  };
+
+  const prevSlide = () => {
+    setCurrentSlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
+  };
 
   return (
     <section 
@@ -22,7 +48,7 @@ export function ProjectSection() {
     >
       {/* Full-width Image with Content Overlay */}
       <div className="relative min-h-[90vh]">
-        {/* Background Image */}
+        {/* Background Image — Lightened */}
         <motion.div 
           className="absolute inset-0"
           initial={{ scale: 1.1 }}
@@ -32,11 +58,11 @@ export function ProjectSection() {
           <img
             src={villaAerial}
             alt="Victoria Villas Aerial View"
-            className="w-full h-full object-cover"
+            className="w-full h-full object-cover brightness-110"
           />
-          {/* Cinematic Overlay */}
-          <div className="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/70 to-navy-900/30" />
-          <div className="absolute inset-0 bg-gradient-to-r from-navy-900/80 via-transparent to-transparent" />
+          {/* Darkened Overlay for Readability */}
+          <div className="absolute inset-0 bg-gradient-to-t from-navy-900 via-navy-900/80 to-navy-900/50" />
+          <div className="absolute inset-0 bg-gradient-to-r from-navy-900/90 via-navy-900/40 to-transparent" />
         </motion.div>
 
         {/* Content */}
@@ -48,17 +74,29 @@ export function ProjectSection() {
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
             >
-              <span className="text-architectural text-sky-400 mb-6 block">
-                {language === 'ru' ? 'О проекте' : language === 'en' ? 'About Project' : 'Proje Hakkında'}
-              </span>
-              
               <h2 className="text-editorial-xl text-white mb-8 leading-tight">
                 {t('project.title')}
               </h2>
               
-              <p className="text-white/70 text-lg font-light leading-relaxed mb-8 max-w-xl">
+              <p className="text-white/80 text-lg font-light leading-relaxed mb-8 max-w-xl">
                 {t('project.description')}
               </p>
+
+              {/* Features Grid */}
+              <div className="grid grid-cols-2 gap-4 mb-8">
+                {features.map((feature, index) => (
+                  <motion.div
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={isInView ? { opacity: 1, x: 0 } : {}}
+                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                    className="flex items-center gap-3"
+                  >
+                    <div className="w-2 h-2 rounded-full bg-sky-light" />
+                    <span className="text-white/90 font-light">{feature}</span>
+                  </motion.div>
+                ))}
+              </div>
 
               <div className="w-24 h-px bg-gradient-to-r from-sky-400/40 to-transparent mb-8" />
               
@@ -67,31 +105,78 @@ export function ProjectSection() {
               </p>
             </motion.div>
 
-            {/* Right Column — Stats */}
-            <motion.div
-              initial={{ opacity: 0, y: 40 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.8, delay: 0.4 }}
-              className="grid grid-cols-2 gap-6"
-            >
-              {stats.map((stat, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.6 + index * 0.1 }}
-                  className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10"
-                >
-                  <span className="font-editorial text-4xl lg:text-5xl text-white block mb-2">
-                    {stat.value}
-                  </span>
-                  <span className="text-xs text-white/50 uppercase tracking-widest">
-                    {stat.label}
-                  </span>
-                </motion.div>
-              ))}
-            </motion.div>
+            {/* Right Column — Empty for balance */}
+            <div />
           </div>
+        </div>
+      </div>
+
+      {/* Photo Gallery Slider */}
+      <div className="bg-navy-900 py-12">
+        <div className="container-wide">
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.8 }}
+          >
+            <div className="flex items-center justify-between mb-6">
+              <h3 className="font-editorial text-xl text-white/80">
+                {language === 'ru' ? 'Галерея проекта' : language === 'en' ? 'Project Gallery' : 'Proje Galerisi'}
+              </h3>
+              <div className="flex gap-2">
+                <button
+                  onClick={prevSlide}
+                  className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white"
+                >
+                  <ChevronLeft size={20} />
+                </button>
+                <button
+                  onClick={nextSlide}
+                  className="p-3 rounded-full bg-white/10 hover:bg-white/20 transition-colors text-white"
+                >
+                  <ChevronRight size={20} />
+                </button>
+              </div>
+            </div>
+
+            {/* Slider */}
+            <div className="relative overflow-hidden rounded-2xl">
+              <div 
+                className="flex transition-transform duration-500 ease-out"
+                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
+              >
+                {galleryImages.map((image, index) => (
+                  <div key={index} className="w-full flex-shrink-0">
+                    <div className="aspect-[21/9] relative">
+                      <img
+                        src={image.src}
+                        alt={image.label}
+                        className="w-full h-full object-cover"
+                      />
+                      <div className="absolute bottom-4 left-4 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm">
+                        {image.label}
+                      </div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+
+            {/* Dots */}
+            <div className="flex justify-center gap-2 mt-4">
+              {galleryImages.map((_, index) => (
+                <button
+                  key={index}
+                  onClick={() => setCurrentSlide(index)}
+                  className={`w-2 h-2 rounded-full transition-all ${
+                    currentSlide === index
+                      ? 'bg-white w-8'
+                      : 'bg-white/30 hover:bg-white/50'
+                  }`}
+                />
+              ))}
+            </div>
+          </motion.div>
         </div>
       </div>
 
@@ -100,7 +185,7 @@ export function ProjectSection() {
         initial={{ opacity: 0, y: 20 }}
         animate={isInView ? { opacity: 1, y: 0 } : {}}
         transition={{ duration: 0.6, delay: 1 }}
-        className="bg-navy-900 py-6"
+        className="bg-navy-900 py-6 border-t border-white/10"
       >
         <div className="container-wide flex items-center justify-between">
           <span className="text-xs text-white/40 tracking-wide">
