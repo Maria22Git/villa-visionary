@@ -37,7 +37,7 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Full-screen Background Image Slideshow */}
+      {/* Full-screen Background Image Slideshow - минимальное затенение */}
       <div className="absolute inset-0">
         {heroImages.map((img, index) => (
           <motion.img
@@ -50,61 +50,63 @@ export function Hero() {
             transition={{ duration: 1.5, ease: [0.4, 0, 0.2, 1] }}
           />
         ))}
-        {/* Lighter Overlay - let the image show through more */}
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-900/40 via-transparent to-navy-900/60" />
+        {/* Минимальное затенение - фото хорошо видны */}
+        <div className="absolute inset-0 bg-gradient-to-r from-navy-900/60 via-navy-900/20 to-transparent" />
       </div>
 
-      {/* Content */}
+      {/* Content - выровнено влево */}
       <div className="relative z-10 container-wide py-32 md:py-40">
-        <div className="max-w-3xl">
-          {/* Main Title */}
-          <div className="overflow-hidden mb-10">
-            <motion.h1
-              initial={{ y: '100%', opacity: 0 }}
-              animate={{ y: 0, opacity: 1 }}
-              transition={{ delay: 0.3, duration: 1, ease: [0.4, 0, 0.2, 1] }}
-              className="font-display text-6xl md:text-7xl lg:text-8xl xl:text-9xl text-white font-light tracking-tight"
-            >
-              Victoria Villas
-            </motion.h1>
-          </div>
-
-          {/* Benefits Lines - with dark backdrop for readability */}
+        <div className="max-w-2xl">
+          {/* Benefits с минимальным градиентом под текстом */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
-            transition={{ delay: 0.8, duration: 1 }}
-            className="p-6 rounded-2xl bg-navy-900/70 backdrop-blur-sm space-y-3 mb-14 max-w-xl"
+            transition={{ delay: 0.5, duration: 1 }}
+            className="inline-block"
           >
-            {benefits.map((benefit, index) => (
+            <div className="px-8 py-8 rounded-2xl bg-gradient-to-r from-navy-900/80 via-navy-900/60 to-transparent backdrop-blur-[2px]">
               <motion.p
-                key={index}
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
-                transition={{ delay: 1 + index * 0.15, duration: 0.6 }}
-                className="text-white text-lg md:text-xl font-light"
+                transition={{ delay: 0.7, duration: 0.8 }}
+                className="text-white/70 text-sm md:text-base uppercase tracking-[0.2em] font-light mb-4"
               >
-                {benefit}
+                {language === 'ru' ? 'Элитные виллы в Алании' : language === 'en' ? 'Premium Villas in Alanya' : 'Alanya\'da Lüks Villalar'}
               </motion.p>
-            ))}
-          </motion.div>
+              
+              <div className="space-y-2.5 mb-8">
+                {benefits.map((benefit, index) => (
+                  <motion.p
+                    key={index}
+                    initial={{ opacity: 0, x: -20 }}
+                    animate={{ opacity: 1, x: 0 }}
+                    transition={{ delay: 0.9 + index * 0.12, duration: 0.6 }}
+                    className="text-white text-lg md:text-xl font-light flex items-center gap-3"
+                  >
+                    <span className="w-1.5 h-1.5 rounded-full bg-sky-light flex-shrink-0" />
+                    {benefit}
+                  </motion.p>
+                ))}
+              </div>
 
-          {/* CTA Button */}
-          <motion.div
-            initial={{ opacity: 0, y: 20 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.8, duration: 0.8 }}
-          >
-            <button
-              onClick={scrollToContact}
-              className="group btn-primary text-base px-10 py-5 inline-flex items-center gap-4"
-            >
-              {t('hero.cta')}
-              <ArrowRight 
-                size={18} 
-                className="transition-transform duration-300 group-hover:translate-x-1" 
-              />
-            </button>
+              {/* CTA Button - под текстом */}
+              <motion.div
+                initial={{ opacity: 0, y: 20 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.8, duration: 0.8 }}
+              >
+                <button
+                  onClick={scrollToContact}
+                  className="group btn-primary text-base px-10 py-5 inline-flex items-center gap-4"
+                >
+                  {t('hero.cta')}
+                  <ArrowRight 
+                    size={18} 
+                    className="transition-transform duration-300 group-hover:translate-x-1" 
+                  />
+                </button>
+              </motion.div>
+            </div>
           </motion.div>
         </div>
       </div>
