@@ -43,29 +43,26 @@ export function ArchitectSection() {
             </blockquote>
           </motion.div>
 
-          {/* Photo — Right */}
+          {/* Photo — Right - Smaller and compact */}
           <motion.div
             initial={{ opacity: 0, x: 40 }}
             animate={isInView ? { opacity: 1, x: 0 } : {}}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="order-1 lg:order-2 relative"
+            className="order-1 lg:order-2 flex justify-center lg:justify-end"
           >
-            <div className="relative rounded-3xl overflow-hidden">
+            <div className="relative rounded-2xl overflow-hidden w-48 md:w-56 lg:w-64">
               <img
                 src={ibrahimBey}
                 alt="İbrahim Bey"
-                className="w-full aspect-[4/5] object-cover object-top"
+                className="w-full aspect-[3/4] object-cover object-top"
               />
               {/* Subtle Overlay */}
-              <div className="absolute inset-0 bg-gradient-to-t from-navy-900/20 to-transparent" />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-900/30 to-transparent" />
               
               {/* Name overlay at bottom */}
-              <div className="absolute bottom-0 left-0 right-0 p-8 bg-gradient-to-t from-navy-900/80 to-transparent">
-                <span className="font-editorial text-2xl text-white block mb-1">
+              <div className="absolute bottom-0 left-0 right-0 p-4 bg-gradient-to-t from-navy-900/80 to-transparent">
+                <span className="font-editorial text-lg text-white block">
                   İbrahim Bey
-                </span>
-                <span className="text-sm text-white/70">
-                  {language === 'ru' ? 'Соучредитель IKY Group' : language === 'en' ? 'Co-founder IKY Group' : 'IKY Group Kurucu Ortağı'}
                 </span>
               </div>
             </div>

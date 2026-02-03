@@ -2,8 +2,21 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
 import heroImage from '@/assets/hero-villa.jpg';
+import villaEntrance from '@/assets/villa-entrance.jpg';
+import villaAerial from '@/assets/villa-aerial.jpg';
+import villaMountains from '@/assets/villa-mountains.jpg';
+import { useState, useEffect } from 'react';
 
 export function Hero() {
+  const [currentImage, setCurrentImage] = useState(0);
+  const heroImages = [heroImage, villaEntrance, villaAerial, villaMountains];
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentImage((prev) => (prev + 1) % heroImages.length);
+    }, 5000);
+    return () => clearInterval(interval);
+  }, []);
   const { t, language } = useLanguage();
 
   const scrollToContact = () => {
@@ -24,22 +37,22 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-center overflow-hidden">
-      {/* Full-screen Background Image */}
-      <motion.div 
-        className="absolute inset-0"
-        initial={{ scale: 1.05 }}
-        animate={{ scale: 1 }}
-        transition={{ duration: 2, ease: [0.4, 0, 0.2, 1] }}
-      >
-        <img
-          src={heroImage}
-          alt="Victoria Villas"
-          className="w-full h-full object-cover"
-        />
-        {/* Dark Overlay for Readability */}
-        <div className="absolute inset-0 bg-gradient-to-b from-navy-900/60 via-navy-900/40 to-navy-900/80" />
-        <div className="absolute inset-0 bg-navy-900/30" />
-      </motion.div>
+      {/* Full-screen Background Image Slideshow */}
+      <div className="absolute inset-0">
+        {heroImages.map((img, index) => (
+          <motion.img
+            key={index}
+            src={img}
+            alt="Victoria Villas"
+            className="absolute inset-0 w-full h-full object-cover"
+            initial={{ opacity: 0 }}
+            animate={{ opacity: currentImage === index ? 1 : 0 }}
+            transition={{ duration: 1.5, ease: [0.4, 0, 0.2, 1] }}
+          />
+        ))}
+        {/* Lighter Overlay - let the image show through more */}
+        <div className="absolute inset-0 bg-gradient-to-b from-navy-900/40 via-transparent to-navy-900/60" />
+      </div>
 
       {/* Content */}
       <div className="relative z-10 container-wide py-32 md:py-40">
@@ -56,12 +69,12 @@ export function Hero() {
             </motion.h1>
           </div>
 
-          {/* Benefits Lines */}
+          {/* Benefits Lines - with dark backdrop for readability */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.8, duration: 1 }}
-            className="space-y-3 mb-14"
+            className="p-6 rounded-2xl bg-navy-900/70 backdrop-blur-sm space-y-3 mb-14 max-w-xl"
           >
             {benefits.map((benefit, index) => (
               <motion.p
@@ -69,7 +82,7 @@ export function Hero() {
                 initial={{ opacity: 0, y: 20 }}
                 animate={{ opacity: 1, y: 0 }}
                 transition={{ delay: 1 + index * 0.15, duration: 0.6 }}
-                className="text-white/80 text-lg md:text-xl font-light"
+                className="text-white text-lg md:text-xl font-light"
               >
                 {benefit}
               </motion.p>
