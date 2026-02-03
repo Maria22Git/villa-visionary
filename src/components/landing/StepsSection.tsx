@@ -25,7 +25,7 @@ export function StepsSection() {
           alt=""
           className="w-full h-full object-cover"
         />
-        <div className="absolute inset-0 bg-gradient-to-br from-navy-900/97 via-navy-900/95 to-navy-800/97" />
+        <div className="absolute inset-0 bg-navy-900/95" />
       </div>
 
       <div className="relative z-10 section-editorial">
@@ -64,9 +64,9 @@ export function StepsSection() {
                 transition={{ duration: 0.6, delay: 0.2 + index * 0.1 }}
                 className="group relative"
               >
-                <div className="relative p-8 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/8 hover:border-white/20 transition-all duration-500">
+                <div className="relative p-8 rounded-3xl bg-white/5 backdrop-blur-sm border border-white/10">
                   {/* Number */}
-                  <span className="font-editorial text-5xl text-primary/70 group-hover:text-primary transition-colors block mb-4">
+                  <span className="font-editorial text-5xl text-primary/70 block mb-4">
                     {step.number}
                   </span>
                   
@@ -74,9 +74,6 @@ export function StepsSection() {
                   <p className="text-white font-light text-lg leading-relaxed">
                     {t(`steps.${step.key}`)}
                   </p>
-
-                  {/* Corner accent on hover */}
-                  <div className="absolute top-4 right-4 w-8 h-8 border-t border-r border-white/0 group-hover:border-white/20 transition-colors rounded-tr-lg" />
                 </div>
               </motion.div>
             ))}

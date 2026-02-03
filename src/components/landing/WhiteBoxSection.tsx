@@ -1,17 +1,12 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Home, Thermometer, Wrench } from 'lucide-react';
 
 export function WhiteBoxSection() {
   const { t, language } = useLanguage();
   const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
 
-  const features = [
-    { key: 'smarthome', icon: Home },
-    { key: 'floors', icon: Thermometer },
-    { key: 'materials', icon: Wrench },
-  ];
+  const features = ['smarthome', 'floors', 'materials'];
 
   return (
     <section ref={ref} className="section-padding-sm bg-muted/30 relative overflow-hidden">
@@ -34,24 +29,18 @@ export function WhiteBoxSection() {
             {t('whitebox.description')}
           </p>
 
-          <div className="flex flex-wrap justify-center gap-4">
-            {features.map((feature, index) => {
-              const Icon = feature.icon;
-              return (
-                <motion.div
-                  key={feature.key}
-                  initial={{ opacity: 0, y: 20 }}
-                  animate={isInView ? { opacity: 1, y: 0 } : {}}
-                  transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
-                  className="flex items-center gap-3 px-6 py-4 rounded-full bg-card shadow-soft border border-border/50"
-                >
-                  <Icon size={20} className="text-primary" strokeWidth={1.5} />
-                  <span className="text-navy-900 font-medium">
-                    {t(`whitebox.${feature.key}`)}
-                  </span>
-                </motion.div>
-              );
-            })}
+          <div className="space-y-4">
+            {features.map((key, index) => (
+              <motion.p
+                key={key}
+                initial={{ opacity: 0, y: 20 }}
+                animate={isInView ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 0.5, delay: 0.2 + index * 0.1 }}
+                className="text-navy-900 text-lg font-medium"
+              >
+                {t(`whitebox.${key}`)}
+              </motion.p>
+            ))}
           </div>
         </motion.div>
       </div>

@@ -1,19 +1,14 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { Award, Heart, Sun, Home, ArrowRight } from 'lucide-react';
+import { ArrowRight } from 'lucide-react';
 import livingRoom from '@/assets/interiors/living-room-1.jpg';
 
 export function LifestyleSection() {
   const { t, language } = useLanguage();
   const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
 
-  const features = [
-    { key: 'status', icon: Award },
-    { key: 'comfort', icon: Home },
-    { key: 'enjoyment', icon: Heart },
-    { key: 'climate', icon: Sun },
-  ];
+  const features = ['status', 'comfort', 'enjoyment', 'climate'];
 
   const scrollToContact = () => {
     const element = document.querySelector('#contact');
@@ -62,32 +57,24 @@ export function LifestyleSection() {
               </p>
             </motion.div>
 
-            {/* Features Grid */}
+            {/* Features — Simple text list */}
             <motion.div 
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="grid sm:grid-cols-2 gap-4 mb-12"
+              className="space-y-4 mb-12"
             >
-              {features.map((feature, index) => {
-                const Icon = feature.icon;
-                return (
-                  <motion.div
-                    key={feature.key}
-                    initial={{ opacity: 0, y: 20 }}
-                    animate={isInView ? { opacity: 1, y: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                    className="flex items-center gap-4 p-5 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors duration-300"
-                  >
-                    <div className="w-10 h-10 rounded-xl bg-white/10 flex items-center justify-center">
-                      <Icon size={20} className="text-sky-400" strokeWidth={1.5} />
-                    </div>
-                    <span className="font-medium text-white">
-                      {t(`lifestyle.${feature.key}`)}
-                    </span>
-                  </motion.div>
-                );
-              })}
+              {features.map((key, index) => (
+                <motion.p
+                  key={key}
+                  initial={{ opacity: 0, y: 20 }}
+                  animate={isInView ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                  className="text-white/80 text-lg font-light"
+                >
+                  {t(`lifestyle.${key}`)}
+                </motion.p>
+              ))}
             </motion.div>
 
             <motion.div
