@@ -14,7 +14,7 @@ export function Hero() {
   };
 
   const benefits = [
-    language === 'ru' ? 'Напрямую от застройщика IKY Group' : language === 'en' ? 'Directly from developer IKY Group' : 'Doğrudan IKY Group geliştiricisinden',
+    language === 'ru' ? 'Первоначальный взнос 30%' : language === 'en' ? '30% down payment' : '%30 peşinat',
     language === 'ru' ? 'Напрямую от застройщика IKY Group' : language === 'en' ? 'Directly from developer IKY Group' : 'Doğrudan IKY Group geliştiricisinden',
     language === 'ru' ? '40+ реализованных проектов' : language === 'en' ? '40+ completed projects' : '40+ tamamlanmış proje',
     language === 'ru' ? 'Беспроцентная рассрочка на 3 года' : language === 'en' ? 'Interest-free installments for 3 years' : '3 yıl faizsiz taksit',
