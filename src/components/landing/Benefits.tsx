@@ -26,7 +26,7 @@ export function Benefits() {
     },
     {
       key: 'fast',
-      highlight: language === 'ru' ? '2025' : language === 'en' ? '2025' : '2025',
+      highlight: language === 'ru' ? '2026' : language === 'en' ? '2026' : '2026',
     },
   ];
 
