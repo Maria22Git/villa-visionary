@@ -3,21 +3,39 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { ArrowRight, X, ChevronLeft, ChevronRight, Check } from 'lucide-react';
-import groundFloor from '@/assets/plans/ground-floor.png';
-import firstFloor from '@/assets/plans/first-floor.png';
-import secondFloor from '@/assets/plans/second-floor.png';
+
+// Villa 5+1 plans (light background)
+import villa5GroundFloor from '@/assets/plans/villa-5plus1-ground-floor.png';
+import villa5FirstFloor from '@/assets/plans/villa-5plus1-first-floor.png';
+import villa5Attic from '@/assets/plans/villa-5plus1-attic.png';
+import villa5Basement from '@/assets/plans/villa-5plus1-basement.png';
+
+// Villa 3+1 plans (silver background with English labels)
+import villa3GroundFloor from '@/assets/plans/villa-3plus1-ground-floor.png';
+import villa3FirstFloor from '@/assets/plans/villa-3plus1-first-floor.png';
+import villa3SecondFloor from '@/assets/plans/villa-3plus1-second-floor.png';
 
 export function PlansSection() {
   const { t, language } = useLanguage();
   const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPlan, setCurrentPlan] = useState(0);
+  const [activeVillaType, setActiveVillaType] = useState<'3+1' | '5+1'>('3+1');
 
-  const plans = [
-    { image: groundFloor, label: language === 'ru' ? 'Первый этаж' : language === 'en' ? 'Ground Floor' : 'Zemin Kat' },
-    { image: firstFloor, label: language === 'ru' ? 'Второй этаж' : language === 'en' ? 'First Floor' : 'Birinci Kat' },
-    { image: secondFloor, label: language === 'ru' ? 'Третий этаж' : language === 'en' ? 'Second Floor' : 'İkinci Kat' },
+  const plans3Plus1 = [
+    { image: villa3GroundFloor, label: language === 'ru' ? 'Первый этаж' : language === 'en' ? 'Ground Floor' : 'Zemin Kat' },
+    { image: villa3FirstFloor, label: language === 'ru' ? 'Второй этаж' : language === 'en' ? 'First Floor' : 'Birinci Kat' },
+    { image: villa3SecondFloor, label: language === 'ru' ? 'Третий этаж' : language === 'en' ? 'Second Floor' : 'İkinci Kat' },
   ];
+
+  const plans5Plus1 = [
+    { image: villa5Basement, label: language === 'ru' ? 'Подвал' : language === 'en' ? 'Basement' : 'Bodrum Kat' },
+    { image: villa5GroundFloor, label: language === 'ru' ? 'Первый этаж' : language === 'en' ? 'Ground Floor' : 'Zemin Kat' },
+    { image: villa5FirstFloor, label: language === 'ru' ? 'Второй этаж' : language === 'en' ? 'First Floor' : 'Birinci Kat' },
+    { image: villa5Attic, label: language === 'ru' ? 'Мансарда' : language === 'en' ? 'Attic' : 'Çatı Arası' },
+  ];
+
+  const currentPlans = activeVillaType === '3+1' ? plans3Plus1 : plans5Plus1;
 
   const villa3Plus1 = {
     title: language === 'ru' ? 'Вилла 3+1' : language === 'en' ? 'Villa 3+1' : 'Villa 3+1',
@@ -45,11 +63,11 @@ export function PlansSection() {
   };
 
   const nextPlan = () => {
-    setCurrentPlan((prev) => (prev + 1) % plans.length);
+    setCurrentPlan((prev) => (prev + 1) % currentPlans.length);
   };
 
   const prevPlan = () => {
-    setCurrentPlan((prev) => (prev - 1 + plans.length) % plans.length);
+    setCurrentPlan((prev) => (prev - 1 + currentPlans.length) % currentPlans.length);
   };
 
   return (
@@ -82,11 +100,16 @@ export function PlansSection() {
         {/* Villa Types Cards */}
         <div className="grid lg:grid-cols-2 gap-8 mb-16">
           {/* Villa 3+1 */}
-          <motion.div
+          <motion.button
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.2 }}
-            className="relative p-8 rounded-3xl bg-gradient-to-br from-white to-mist/30 border border-blue-soft/20 shadow-soft hover:shadow-medium transition-all"
+            onClick={() => setActiveVillaType('3+1')}
+            className={`relative p-8 rounded-3xl text-left transition-all ${
+              activeVillaType === '3+1' 
+                ? 'bg-gradient-to-br from-white to-mist/30 border-2 border-primary shadow-medium' 
+                : 'bg-gradient-to-br from-white to-mist/30 border border-blue-soft/20 shadow-soft hover:shadow-medium'
+            }`}
           >
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-editorial text-3xl text-navy-900">{villa3Plus1.title}</h3>
@@ -103,14 +126,19 @@ export function PlansSection() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </motion.button>
 
           {/* Villa 5+1 - Fixed readability */}
-          <motion.div
+          <motion.button
             initial={{ opacity: 0, y: 30 }}
             animate={isInView ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.6, delay: 0.3 }}
-            className="relative p-8 rounded-3xl bg-gradient-to-br from-navy-900 to-navy-main border border-white/20 shadow-large"
+            onClick={() => setActiveVillaType('5+1')}
+            className={`relative p-8 rounded-3xl text-left transition-all ${
+              activeVillaType === '5+1' 
+                ? 'bg-gradient-to-br from-navy-900 to-navy-main border-2 border-sky-light shadow-large' 
+                : 'bg-gradient-to-br from-navy-900 to-navy-main border border-white/20 shadow-large hover:border-white/40'
+            }`}
           >
             <div className="flex items-center justify-between mb-6">
               <h3 className="font-editorial text-3xl text-white">{villa5Plus1.title}</h3>
@@ -127,14 +155,30 @@ export function PlansSection() {
                 </div>
               ))}
             </div>
-          </motion.div>
+          </motion.button>
         </div>
 
+        {/* Plans Gallery Title */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={isInView ? { opacity: 1, y: 0 } : {}}
+          transition={{ duration: 0.6, delay: 0.35 }}
+          className="text-center mb-8"
+        >
+          <h3 className="font-editorial text-2xl text-navy-900">
+            {language === 'ru' 
+              ? `Планировки ${activeVillaType === '3+1' ? 'Вилла 3+1' : 'Вилла 5+1'}` 
+              : language === 'en' 
+              ? `${activeVillaType === '3+1' ? 'Villa 3+1' : 'Villa 5+1'} Floor Plans` 
+              : `${activeVillaType === '3+1' ? 'Villa 3+1' : 'Villa 5+1'} Kat Planları`}
+          </h3>
+        </motion.div>
+
         {/* Plans Gallery */}
-        <div className="grid md:grid-cols-3 gap-6 mb-10">
-          {plans.map((plan, index) => (
+        <div className={`grid gap-6 mb-10 ${currentPlans.length === 4 ? 'md:grid-cols-4' : 'md:grid-cols-3'}`}>
+          {currentPlans.map((plan, index) => (
             <motion.button
-              key={index}
+              key={`${activeVillaType}-${index}`}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
@@ -196,8 +240,8 @@ export function PlansSection() {
 
           <div className="max-w-5xl w-full aspect-[4/3] bg-white rounded-2xl overflow-hidden shadow-large">
             <img
-              src={plans[currentPlan].image}
-              alt={plans[currentPlan].label}
+              src={currentPlans[currentPlan].image}
+              alt={currentPlans[currentPlan].label}
               className="w-full h-full object-contain p-8"
             />
           </div>
@@ -211,7 +255,7 @@ export function PlansSection() {
 
           {/* Thumbnails */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
-            {plans.map((plan, index) => (
+            {currentPlans.map((plan, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentPlan(index)}
