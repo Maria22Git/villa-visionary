@@ -4,15 +4,30 @@ import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { ArrowRight } from 'lucide-react';
 
 export function Benefits() {
-  const { t } = useLanguage();
+  const { t, language } = useLanguage();
   const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
 
   const benefits = [
-    'citizenship',
-    'installment',
-    'downpayment',
-    'included',
-    'fast',
+    {
+      key: 'citizenship',
+      highlight: language === 'ru' ? 'Гражданство' : language === 'en' ? 'Citizenship' : 'Vatandaşlık',
+    },
+    {
+      key: 'installment',
+      highlight: language === 'ru' ? '0%' : language === 'en' ? '0%' : '%0',
+    },
+    {
+      key: 'downpayment',
+      highlight: language === 'ru' ? '30%' : language === 'en' ? '30%' : '%30',
+    },
+    {
+      key: 'included',
+      highlight: language === 'ru' ? 'Под ключ' : language === 'en' ? 'Turnkey' : 'Anahtar Teslim',
+    },
+    {
+      key: 'fast',
+      highlight: language === 'ru' ? '2025' : language === 'en' ? '2025' : '2025',
+    },
   ];
 
   const scrollToContact = () => {
@@ -31,6 +46,7 @@ export function Benefits() {
       {/* Subtle Background */}
       <div className="absolute inset-0 pointer-events-none">
         <div className="absolute top-0 right-0 w-[600px] h-[600px] rounded-full bg-gradient-to-br from-sky-200/10 to-transparent blur-3xl" />
+        <div className="absolute bottom-0 left-0 w-[400px] h-[400px] rounded-full bg-gradient-to-tr from-blue-architect/5 to-transparent blur-3xl" />
       </div>
 
       <div className="container-wide relative z-10">
@@ -67,19 +83,34 @@ export function Benefits() {
           {t('benefits.title')}
         </motion.h3>
 
-        {/* Benefits List — Clean text only */}
-        <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-8 mb-16">
-          {benefits.map((key, index) => (
+        {/* Benefits Cards — Premium Design */}
+        <div className="grid md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-5 gap-6 mb-16">
+          {benefits.map((benefit, index) => (
             <motion.div
-              key={key}
+              key={benefit.key}
               initial={{ opacity: 0, y: 30 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.6, delay: 0.5 + index * 0.1 }}
-              className="group"
+              className="group relative"
             >
-              <p className="text-navy-900 text-lg leading-relaxed">
-                {t(`benefits.${key}`)}
-              </p>
+              <div className="relative p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-white/50 shadow-soft hover:shadow-medium transition-all duration-500 hover:-translate-y-1 h-full">
+                {/* Highlight Badge */}
+                <div className="mb-4">
+                  <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-sky-light/20 text-primary font-bold text-lg">
+                    {benefit.highlight}
+                  </span>
+                </div>
+                
+                {/* Benefit Text */}
+                <p className="text-navy-900 text-base leading-relaxed font-light">
+                  {t(`benefits.${benefit.key}`)}
+                </p>
+                
+                {/* Decorative corner */}
+                <div className="absolute top-0 right-0 w-16 h-16 overflow-hidden rounded-tr-2xl">
+                  <div className="absolute -top-8 -right-8 w-16 h-16 bg-gradient-to-br from-sky-light/20 to-transparent rotate-45" />
+                </div>
+              </div>
             </motion.div>
           ))}
         </div>
@@ -89,13 +120,14 @@ export function Benefits() {
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 1 }}
+          className="text-center"
         >
           <button
             onClick={scrollToContact}
-            className="group btn-editorial text-navy-900"
+            className="group btn-primary text-base px-10 py-5 inline-flex items-center gap-4"
           >
-            <span>{t('benefits.cta')}</span>
-            <ArrowRight size={16} className="transition-transform group-hover:translate-x-2" />
+            {t('benefits.cta')}
+            <ArrowRight size={18} className="transition-transform group-hover:translate-x-1" />
           </button>
         </motion.div>
       </div>

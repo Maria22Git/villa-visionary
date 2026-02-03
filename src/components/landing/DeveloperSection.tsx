@@ -1,7 +1,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import livingRoom from '@/assets/interiors/living-room-2.jpg';
+import ikyGroupOffice from '@/assets/iky-group-office.jpg';
 
 export function DeveloperSection() {
   const { t, language } = useLanguage();
@@ -17,11 +17,11 @@ export function DeveloperSection() {
 
   return (
     <section ref={ref} className="relative overflow-hidden">
-      {/* Background */}
+      {/* Background — IKY Group Office Photo */}
       <div className="absolute inset-0">
         <motion.img
-          src={livingRoom}
-          alt=""
+          src={ikyGroupOffice}
+          alt="IKY Group Office"
           className="w-full h-full object-cover"
           initial={{ scale: 1.1 }}
           animate={isInView ? { scale: 1 } : {}}
@@ -59,7 +59,7 @@ export function DeveloperSection() {
                       transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
                       className="text-center p-5 rounded-2xl bg-white/5 border border-white/10"
                     >
-                      <span className="font-editorial text-3xl md:text-4xl text-primary block mb-1">
+                      <span className="font-editorial text-3xl md:text-4xl text-white font-bold block mb-1">
                         {stat.value}
                       </span>
                       <span className="text-white/60 text-sm">
@@ -93,14 +93,14 @@ export function DeveloperSection() {
                     initial={{ opacity: 0, x: 20 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                    className="text-white/80 text-lg font-light"
+                    className="text-white/90 text-lg font-light"
                   >
                     {t(`developer.${key}`)}
                   </motion.p>
                 ))}
               </div>
 
-              <p className="text-white/90 font-editorial text-xl italic border-l-2 border-primary/50 pl-6">
+              <p className="text-white font-editorial text-xl italic border-l-2 border-sky-light/50 pl-6">
                 {t('developer.trust')}
               </p>
             </motion.div>
