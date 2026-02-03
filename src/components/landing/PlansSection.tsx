@@ -4,23 +4,27 @@ import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { ArrowRight, X, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 
-// Villa 5+1 plans (light background)
+// Villa 5+1 plans
 import villa5GroundFloor from '@/assets/plans/villa-5plus1-ground-floor.png';
 import villa5FirstFloor from '@/assets/plans/villa-5plus1-first-floor.png';
 import villa5Attic from '@/assets/plans/villa-5plus1-attic.png';
 import villa5Basement from '@/assets/plans/villa-5plus1-basement.png';
 
-// Villa 3+1 plans (silver background with English labels)
+// Villa 3+1 plans
 import villa3GroundFloor from '@/assets/plans/villa-3plus1-ground-floor.png';
 import villa3FirstFloor from '@/assets/plans/villa-3plus1-first-floor.png';
 import villa3SecondFloor from '@/assets/plans/villa-3plus1-second-floor.png';
 
+// Villa renders
+import villaExterior from '@/assets/villa-exterior.jpg';
+import villaPoolFacade from '@/assets/villa-pool-facade.jpg';
+
 export function PlansSection() {
   const { t, language } = useLanguage();
-  const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
+  const { ref, isInView } = useScrollReveal({ threshold: 0.1 });
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [currentPlan, setCurrentPlan] = useState(0);
-  const [activeVillaType, setActiveVillaType] = useState<'3+1' | '5+1'>('3+1');
+  const [modalPlans, setModalPlans] = useState<Array<{ image: string; label: string }>>([]);
 
   const plans3Plus1 = [
     { image: villa3GroundFloor, label: language === 'ru' ? 'Первый этаж' : language === 'en' ? 'Ground Floor' : 'Zemin Kat' },
@@ -35,11 +39,10 @@ export function PlansSection() {
     { image: villa5Attic, label: language === 'ru' ? 'Мансарда' : language === 'en' ? 'Attic' : 'Çatı Arası' },
   ];
 
-  const currentPlans = activeVillaType === '3+1' ? plans3Plus1 : plans5Plus1;
-
   const villa3Plus1 = {
     title: language === 'ru' ? 'Вилла 3+1' : language === 'en' ? 'Villa 3+1' : 'Villa 3+1',
     area: '208 – 250 m²',
+    render: villaExterior,
     features: language === 'ru' 
       ? ['Кухня-гостиная', '2 Детские комнаты', 'Бассейн', 'Джакузи', 'Видеонаблюдение', 'Мастер-спальня с гардеробной', 'Парковка для авто', 'Охрана']
       : language === 'en'
@@ -50,6 +53,7 @@ export function PlansSection() {
   const villa5Plus1 = {
     title: language === 'ru' ? 'Вилла 5+1' : language === 'en' ? 'Villa 5+1' : 'Villa 5+1',
     area: '450 – 654 m²',
+    render: villaPoolFacade,
     features: language === 'ru'
       ? ['Двусветная гостиная', 'Постирочная', 'Лифт', 'Гардеробная', 'Бассейн', 'Хамам', 'Сауна', 'Детская площадка', 'Сад', 'Видеонаблюдение', 'Подземная парковка на 2 авто', 'Охрана']
       : language === 'en'
@@ -57,22 +61,24 @@ export function PlansSection() {
       : ['Çift yükseklikli oturma odası', 'Çamaşır odası', 'Asansör', 'Giyinme odası', 'Havuz', 'Hamam', 'Sauna', 'Oyun alanı', 'Bahçe', 'Video gözetimi', '2 araçlık yeraltı otoparkı', 'Güvenlik'],
   };
 
-  const openModal = (index: number) => {
+  const openModal = (plans: Array<{ image: string; label: string }>, index: number) => {
+    setModalPlans(plans);
     setCurrentPlan(index);
     setIsModalOpen(true);
   };
 
   const nextPlan = () => {
-    setCurrentPlan((prev) => (prev + 1) % currentPlans.length);
+    setCurrentPlan((prev) => (prev + 1) % modalPlans.length);
   };
 
   const prevPlan = () => {
-    setCurrentPlan((prev) => (prev - 1 + currentPlans.length) % currentPlans.length);
+    setCurrentPlan((prev) => (prev - 1 + modalPlans.length) % modalPlans.length);
   };
 
   return (
     <section id="plans" ref={ref} className="section-padding bg-background">
       <div className="container-wide">
+        {/* Section Header */}
         <motion.div 
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
@@ -89,130 +95,39 @@ export function PlansSection() {
           <p className="text-muted-foreground text-lg mb-8 max-w-2xl mx-auto">
             {t('plans.description')}
           </p>
-
-          <p className="text-navy-900 italic font-editorial text-xl mb-4">
-            {language === 'ru' ? 'Продуманное зонирование и отдельные зоны отдыха' 
-              : language === 'en' ? 'Thoughtful zoning and separate relaxation areas' 
-              : 'Düşünceli bölgeleme ve ayrı dinlenme alanları'}
-          </p>
         </motion.div>
 
-        {/* Villa Types Cards */}
-        <div className="grid lg:grid-cols-2 gap-8 mb-16">
-          {/* Villa 3+1 */}
-          <motion.button
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.2 }}
-            onClick={() => setActiveVillaType('3+1')}
-            className={`relative p-8 rounded-3xl text-left transition-all ${
-              activeVillaType === '3+1' 
-                ? 'bg-gradient-to-br from-white to-mist/30 border-2 border-primary shadow-medium' 
-                : 'bg-gradient-to-br from-white to-mist/30 border border-blue-soft/20 shadow-soft hover:shadow-medium'
-            }`}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="font-editorial text-3xl text-navy-900">{villa3Plus1.title}</h3>
-              <span className="px-4 py-2 rounded-full bg-primary/10 text-primary font-bold text-lg">
-                {villa3Plus1.area}
-              </span>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-3">
-              {villa3Plus1.features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <Check size={16} className="text-primary flex-shrink-0" />
-                  <span className="text-navy-900/80 text-sm">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </motion.button>
+        {/* Villa 3+1 Block */}
+        <VillaPlansBlock
+          villa={villa3Plus1}
+          plans={plans3Plus1}
+          isInView={isInView}
+          onOpenModal={(index) => openModal(plans3Plus1, index)}
+          delay={0.2}
+          language={language}
+          variant="light"
+        />
 
-          {/* Villa 5+1 - Fixed readability */}
-          <motion.button
-            initial={{ opacity: 0, y: 30 }}
-            animate={isInView ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.6, delay: 0.3 }}
-            onClick={() => setActiveVillaType('5+1')}
-            className={`relative p-8 rounded-3xl text-left transition-all ${
-              activeVillaType === '5+1' 
-                ? 'bg-gradient-to-br from-navy-900 to-navy-main border-2 border-sky-light shadow-large' 
-                : 'bg-gradient-to-br from-navy-900 to-navy-main border border-white/20 shadow-large hover:border-white/40'
-            }`}
-          >
-            <div className="flex items-center justify-between mb-6">
-              <h3 className="font-editorial text-3xl text-white">{villa5Plus1.title}</h3>
-              <span className="px-4 py-2 rounded-full bg-sky-light/20 text-sky-light font-bold text-lg border border-sky-light/30">
-                {villa5Plus1.area}
-              </span>
-            </div>
-            
-            <div className="grid grid-cols-2 gap-3">
-              {villa5Plus1.features.map((feature, index) => (
-                <div key={index} className="flex items-center gap-2">
-                  <Check size={16} className="text-sky-light flex-shrink-0" />
-                  <span className="text-white text-sm">{feature}</span>
-                </div>
-              ))}
-            </div>
-          </motion.button>
-        </div>
-
-        {/* Plans Gallery Title */}
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          animate={isInView ? { opacity: 1, y: 0 } : {}}
-          transition={{ duration: 0.6, delay: 0.35 }}
-          className="text-center mb-8"
-        >
-          <h3 className="font-editorial text-2xl text-navy-900">
-            {language === 'ru' 
-              ? `Планировки ${activeVillaType === '3+1' ? 'Вилла 3+1' : 'Вилла 5+1'}` 
-              : language === 'en' 
-              ? `${activeVillaType === '3+1' ? 'Villa 3+1' : 'Villa 5+1'} Floor Plans` 
-              : `${activeVillaType === '3+1' ? 'Villa 3+1' : 'Villa 5+1'} Kat Planları`}
-          </h3>
-        </motion.div>
-
-        {/* Plans Gallery */}
-        <div className={`grid gap-6 mb-10 ${currentPlans.length === 4 ? 'md:grid-cols-4' : 'md:grid-cols-3'}`}>
-          {currentPlans.map((plan, index) => (
-            <motion.button
-              key={`${activeVillaType}-${index}`}
-              initial={{ opacity: 0, y: 30 }}
-              animate={isInView ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 0.6, delay: 0.4 + index * 0.1 }}
-              onClick={() => openModal(index)}
-              className="group relative aspect-[4/3] rounded-2xl overflow-hidden bg-muted shadow-soft hover:shadow-medium transition-all"
-            >
-              <img
-                src={plan.image}
-                alt={plan.label}
-                className="w-full h-full object-contain p-4 group-hover:scale-105 transition-transform duration-300"
-              />
-              <div className="absolute inset-0 bg-navy-900/0 group-hover:bg-navy-900/40 transition-colors flex items-center justify-center">
-                <span className="text-white font-light opacity-0 group-hover:opacity-100 transition-opacity">
-                  {language === 'ru' ? 'Увеличить' : language === 'en' ? 'View' : 'Görüntüle'}
-                </span>
-              </div>
-              <div className="absolute bottom-4 left-4 right-4">
-                <span className="inline-block px-3 py-1.5 rounded-full bg-white/90 text-navy-900 text-sm font-medium shadow-soft">
-                  {plan.label}
-                </span>
-              </div>
-            </motion.button>
-          ))}
-        </div>
+        {/* Villa 5+1 Block */}
+        <VillaPlansBlock
+          villa={villa5Plus1}
+          plans={plans5Plus1}
+          isInView={isInView}
+          onOpenModal={(index) => openModal(plans5Plus1, index)}
+          delay={0.4}
+          language={language}
+          variant="dark"
+        />
 
         {/* CTA */}
         <motion.div 
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.6 }}
-          className="text-center"
+          className="text-center mt-16"
         >
           <button
-            onClick={() => openModal(0)}
+            onClick={() => openModal(plans3Plus1, 0)}
             className="btn-primary inline-flex items-center gap-3"
           >
             {t('plans.view')}
@@ -222,7 +137,7 @@ export function PlansSection() {
       </div>
 
       {/* Modal */}
-      {isModalOpen && (
+      {isModalOpen && modalPlans.length > 0 && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-navy-900/90 backdrop-blur-sm animate-fade-in">
           <button
             onClick={() => setIsModalOpen(false)}
@@ -240,8 +155,8 @@ export function PlansSection() {
 
           <div className="max-w-5xl w-full aspect-[4/3] bg-white rounded-2xl overflow-hidden shadow-large">
             <img
-              src={currentPlans[currentPlan].image}
-              alt={currentPlans[currentPlan].label}
+              src={modalPlans[currentPlan].image}
+              alt={modalPlans[currentPlan].label}
               className="w-full h-full object-contain p-8"
             />
           </div>
@@ -255,7 +170,7 @@ export function PlansSection() {
 
           {/* Thumbnails */}
           <div className="absolute bottom-8 left-1/2 -translate-x-1/2 flex gap-3">
-            {currentPlans.map((plan, index) => (
+            {modalPlans.map((plan, index) => (
               <button
                 key={index}
                 onClick={() => setCurrentPlan(index)}
@@ -276,5 +191,126 @@ export function PlansSection() {
         </div>
       )}
     </section>
+  );
+}
+
+// Separate component for villa plans block
+interface VillaPlansBlockProps {
+  villa: {
+    title: string;
+    area: string;
+    render: string;
+    features: string[];
+  };
+  plans: Array<{ image: string; label: string }>;
+  isInView: boolean;
+  onOpenModal: (index: number) => void;
+  delay: number;
+  language: string;
+  variant: 'light' | 'dark';
+}
+
+function VillaPlansBlock({ villa, plans, isInView, onOpenModal, delay, language, variant }: VillaPlansBlockProps) {
+  const isDark = variant === 'dark';
+  
+  return (
+    <motion.div
+      initial={{ opacity: 0, y: 40 }}
+      animate={isInView ? { opacity: 1, y: 0 } : {}}
+      transition={{ duration: 0.8, delay }}
+      className={`rounded-3xl overflow-hidden mb-12 ${
+        isDark 
+          ? 'bg-gradient-to-br from-navy-900 to-navy-main' 
+          : 'bg-gradient-to-br from-mist/50 to-white border border-blue-soft/20'
+      }`}
+    >
+      {/* Header with Render + Info */}
+      <div className="grid lg:grid-cols-2 gap-0">
+        {/* Render Image */}
+        <div className="relative aspect-[16/10] lg:aspect-auto overflow-hidden">
+          <img
+            src={villa.render}
+            alt={villa.title}
+            className="w-full h-full object-cover"
+          />
+          <div className={`absolute inset-0 ${isDark ? 'bg-gradient-to-r from-transparent to-navy-900/50' : 'bg-gradient-to-r from-transparent to-white/30'}`} />
+        </div>
+
+        {/* Villa Info */}
+        <div className="p-8 lg:p-10 flex flex-col justify-center">
+          <div className="flex items-center justify-between mb-6">
+            <h3 className={`font-editorial text-3xl lg:text-4xl ${isDark ? 'text-white' : 'text-navy-900'}`}>
+              {villa.title}
+            </h3>
+            <span className={`px-4 py-2 rounded-full font-bold text-lg ${
+              isDark 
+                ? 'bg-sky-light/20 text-sky-light border border-sky-light/30' 
+                : 'bg-primary/10 text-primary'
+            }`}>
+              {villa.area}
+            </span>
+          </div>
+          
+          <div className="grid grid-cols-2 gap-3">
+            {villa.features.slice(0, 8).map((feature, index) => (
+              <div key={index} className="flex items-center gap-2">
+                <Check size={16} className={`flex-shrink-0 ${isDark ? 'text-sky-light' : 'text-primary'}`} />
+                <span className={`text-sm ${isDark ? 'text-white' : 'text-navy-900/80'}`}>{feature}</span>
+              </div>
+            ))}
+          </div>
+          
+          {villa.features.length > 8 && (
+            <div className="grid grid-cols-2 gap-3 mt-3">
+              {villa.features.slice(8).map((feature, index) => (
+                <div key={index} className="flex items-center gap-2">
+                  <Check size={16} className={`flex-shrink-0 ${isDark ? 'text-sky-light' : 'text-primary'}`} />
+                  <span className={`text-sm ${isDark ? 'text-white' : 'text-navy-900/80'}`}>{feature}</span>
+                </div>
+              ))}
+            </div>
+          )}
+        </div>
+      </div>
+
+      {/* Floor Plans Gallery */}
+      <div className={`p-8 lg:p-10 ${isDark ? 'border-t border-white/10' : 'border-t border-blue-soft/20'}`}>
+        <h4 className={`font-editorial text-xl mb-6 ${isDark ? 'text-white' : 'text-navy-900'}`}>
+          {language === 'ru' ? 'Планировки этажей' : language === 'en' ? 'Floor Plans' : 'Kat Planları'}
+        </h4>
+        
+        <div className={`grid gap-4 ${plans.length === 4 ? 'md:grid-cols-4' : 'md:grid-cols-3'}`}>
+          {plans.map((plan, index) => (
+            <button
+              key={index}
+              onClick={() => onOpenModal(index)}
+              className={`group relative aspect-[4/3] rounded-xl overflow-hidden shadow-soft hover:shadow-medium transition-all ${
+                isDark ? 'bg-white/10' : 'bg-white'
+              }`}
+            >
+              <img
+                src={plan.image}
+                alt={plan.label}
+                className="w-full h-full object-contain p-3 group-hover:scale-105 transition-transform duration-300"
+              />
+              <div className={`absolute inset-0 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center ${
+                isDark ? 'bg-navy-900/40' : 'bg-navy-900/30'
+              }`}>
+                <span className="text-white font-light text-sm">
+                  {language === 'ru' ? 'Увеличить' : language === 'en' ? 'View' : 'Görüntüle'}
+                </span>
+              </div>
+              <div className="absolute bottom-2 left-2 right-2">
+                <span className={`inline-block px-2 py-1 rounded-full text-xs font-medium shadow-soft ${
+                  isDark ? 'bg-navy-900/80 text-white' : 'bg-white/90 text-navy-900'
+                }`}>
+                  {plan.label}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+      </div>
+    </motion.div>
   );
 }
