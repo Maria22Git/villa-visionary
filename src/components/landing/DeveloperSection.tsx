@@ -59,7 +59,7 @@ export function DeveloperSection() {
                       transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
                       className="text-center p-5 rounded-2xl bg-white/10 border border-white/20"
                     >
-                      <span className="font-sans text-3xl md:text-4xl text-white font-bold block mb-1">
+                      <span className="font-editorial text-3xl md:text-4xl text-white block mb-1">
                         {stat.value}
                       </span>
                       <span className="text-white/60 text-sm font-light">
@@ -78,16 +78,12 @@ export function DeveloperSection() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="order-1 lg:order-2"
             >
-              <span className="text-architectural text-sky-400 mb-6 block">
-                {language === 'ru' ? 'Застройщик' : language === 'en' ? 'Developer' : 'Geliştirici'}
-              </span>
-
               <h2 className="text-section-title text-white mb-10">
                 {t('developer.title')}
               </h2>
 
               {/* Features with glass backdrop */}
-              <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 mb-10">
+              <div className="p-6 rounded-2xl bg-navy-900/40 backdrop-blur-sm border border-white/10 mb-10">
                 <div className="space-y-4">
                   {features.map((key, index) => (
                     <motion.div
