@@ -45,7 +45,7 @@ export function DeveloperSection() {
                   <h3 className="font-editorial text-5xl lg:text-6xl text-white mb-3">
                     IKY Group
                   </h3>
-                  <p className="text-white/80 text-lg font-light">
+                  <p className="text-white/70 text-lg font-light">
                     {t('developer.description')}
                   </p>
                 </div>
@@ -59,10 +59,10 @@ export function DeveloperSection() {
                       transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
                       className="text-center p-5 rounded-2xl bg-white/10 border border-white/20"
                     >
-                      <span className="font-editorial text-3xl md:text-4xl text-white font-bold block mb-1">
+                      <span className="font-sans text-3xl md:text-4xl text-white font-bold block mb-1">
                         {stat.value}
                       </span>
-                      <span className="text-white/70 text-sm font-light">
+                      <span className="text-white/60 text-sm font-light">
                         {stat.label}
                       </span>
                     </motion.div>
@@ -86,21 +86,24 @@ export function DeveloperSection() {
                 {t('developer.title')}
               </h2>
 
-              <div className="space-y-4 mb-10">
-                {features.map((key, index) => (
-                  <motion.div
-                    key={key}
-                    initial={{ opacity: 0, x: 20 }}
-                    animate={isInView ? { opacity: 1, x: 0 } : {}}
-                    transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                    className="flex items-start gap-3"
-                  >
-                    <Check size={18} className="text-sky-light flex-shrink-0 mt-1" />
-                    <span className="text-white/90 text-lg font-light">
-                      {t(`developer.${key}`)}
-                    </span>
-                  </motion.div>
-                ))}
+              {/* Features with glass backdrop */}
+              <div className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 mb-10">
+                <div className="space-y-4">
+                  {features.map((key, index) => (
+                    <motion.div
+                      key={key}
+                      initial={{ opacity: 0, x: 20 }}
+                      animate={isInView ? { opacity: 1, x: 0 } : {}}
+                      transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
+                      className="flex items-start gap-3"
+                    >
+                      <Check size={18} className="text-white flex-shrink-0 mt-0.5" />
+                      <span className="text-white/90 text-lg font-light">
+                        {t(`developer.${key}`)}
+                      </span>
+                    </motion.div>
+                  ))}
+                </div>
               </div>
 
               <p className="text-white font-editorial text-xl italic border-l-2 border-sky-light/50 pl-6">

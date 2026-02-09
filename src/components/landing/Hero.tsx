@@ -1,7 +1,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { ArrowRight } from 'lucide-react';
 import { motion } from 'framer-motion';
-import heroImage from '@/assets/hero-villa.jpg';
+import heroImage from '@/assets/hero-villa-new.png';
 
 export function Hero() {
   const { t, language } = useLanguage();
@@ -31,12 +31,12 @@ export function Hero() {
           className="absolute inset-0 w-full h-full object-cover"
         />
         <div className="absolute inset-0 bg-gradient-to-r from-navy-900/70 via-navy-900/30 to-transparent" />
-        <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 via-transparent to-transparent" />
+        <div className="absolute inset-0 bg-gradient-to-t from-navy-900/80 via-navy-900/20 to-transparent" />
       </div>
 
       {/* Content */}
-      <div className="relative z-10 container-wide pb-20 md:pb-28 pt-40">
-        <div className="max-w-3xl">
+      <div className="relative z-10 container-wide pb-12 md:pb-20 pt-40">
+        <div className="max-w-3xl mb-10">
           {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
@@ -58,35 +58,12 @@ export function Hero() {
           >
             {language === 'ru' ? 'Виллы под гражданство Турции' : language === 'en' ? 'Villas for Turkish Citizenship' : 'Türk Vatandaşlığı İçin Villalar'}
           </motion.p>
-          
-          {/* Benefits — glass cards */}
-          <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            transition={{ delay: 0.7, duration: 1 }}
-            className="mb-10"
-          >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-              {benefits.map((benefit, index) => (
-                <motion.div
-                  key={index}
-                  initial={{ opacity: 0, x: -20 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
-                  className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15 flex items-center gap-3"
-                >
-                  <span className="w-1.5 h-1.5 rounded-full bg-sky-light flex-shrink-0" />
-                  <span className="text-white text-sm md:text-base font-light">{benefit}</span>
-                </motion.div>
-              ))}
-            </div>
-          </motion.div>
 
           {/* CTA Button */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.5, duration: 0.8 }}
+            transition={{ delay: 0.7, duration: 0.8 }}
           >
             <button
               onClick={scrollToContact}
@@ -100,6 +77,28 @@ export function Hero() {
             </button>
           </motion.div>
         </div>
+
+        {/* Benefits — full-width single row */}
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          animate={{ opacity: 1, y: 0 }}
+          transition={{ delay: 1, duration: 0.8 }}
+        >
+          <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-5 gap-3">
+            {benefits.map((benefit, index) => (
+              <motion.div
+                key={index}
+                initial={{ opacity: 0, y: 15 }}
+                animate={{ opacity: 1, y: 0 }}
+                transition={{ delay: 1.1 + index * 0.08, duration: 0.5 }}
+                className="p-3 md:p-4 rounded-xl bg-white/10 backdrop-blur-md border border-white/15 flex items-center gap-2.5"
+              >
+                <span className="w-1.5 h-1.5 rounded-full bg-sky-light flex-shrink-0" />
+                <span className="text-white text-xs md:text-sm font-light leading-tight">{benefit}</span>
+              </motion.div>
+            ))}
+          </div>
+        </motion.div>
       </div>
     </section>
   );
