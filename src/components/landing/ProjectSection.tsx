@@ -3,7 +3,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
-import villaAerial from '@/assets/villa-aerial.jpg';
+import villaAerial from '@/assets/villa-exterior-new.png';
 import poolView from '@/assets/pool-view.jpg';
 import villaExterior from '@/assets/villa-exterior.jpg';
 import villaArchitecture from '@/assets/villa-architecture.jpg';

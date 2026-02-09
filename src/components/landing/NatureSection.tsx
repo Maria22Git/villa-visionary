@@ -2,7 +2,7 @@ import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { Check } from 'lucide-react';
-import balconyView from '@/assets/balcony-view.jpg';
+import balconyView from '@/assets/balcony-view-new.jpg';
 
 export function NatureSection() {
   const { t, language } = useLanguage();
@@ -12,7 +12,7 @@ export function NatureSection() {
     language === 'ru' ? 'Величественных гор' : language === 'en' ? 'Majestic mountains' : 'Görkemli dağlar',
     language === 'ru' ? 'Хвойных лесов' : language === 'en' ? 'Coniferous forests' : 'İğne yapraklı ormanlar',
     language === 'ru' ? 'Панорамных видов на море' : language === 'en' ? 'Panoramic sea views' : 'Panoramik deniz manzaraları',
-    language === 'ru' ? 'Крепость в скале' : language === 'en' ? 'Fortress in the rock' : 'Kayadaki kale',
+    language === 'ru' ? 'Крепость Кале' : language === 'en' ? 'Kale Fortress' : 'Kale Kalesi',
   ];
 
   return (
