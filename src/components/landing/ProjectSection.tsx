@@ -81,7 +81,7 @@ export function ProjectSection() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="p-8 rounded-2xl bg-navy-900/80 backdrop-blur-sm"
             >
-              <h2 className="text-editorial-xl text-white mb-4 leading-[1.1]">
+              <h2 className="text-editorial-xl text-white mb-3 leading-[1.05]">
                 {t('project.title')}
               </h2>
               
@@ -99,7 +99,7 @@ export function ProjectSection() {
                     transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
                     className="flex items-center gap-3"
                   >
-                    <Check size={16} className="text-sky-light flex-shrink-0" />
+                    <Check size={16} className="text-white flex-shrink-0" />
                     <span className="text-white/90 font-light">{feature}</span>
                   </motion.div>
                 ))}

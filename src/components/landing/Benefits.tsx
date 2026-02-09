@@ -60,7 +60,7 @@ export function Benefits() {
           <h2 className="text-section-title text-navy-900 mb-8">
             {t('why.title')}
           </h2>
-          <p className="text-section-subtitle leading-relaxed">
+          <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
             {t('why.description')}
           </p>
         </motion.div>
