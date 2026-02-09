@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
-import { ChevronLeft, ChevronRight } from 'lucide-react';
+import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import villaAerial from '@/assets/villa-aerial.jpg';
 import poolView from '@/assets/pool-view.jpg';
 import villaExterior from '@/assets/villa-exterior.jpg';
@@ -81,7 +81,7 @@ export function ProjectSection() {
               transition={{ duration: 0.8, delay: 0.2 }}
               className="p-8 rounded-2xl bg-navy-900/80 backdrop-blur-sm"
             >
-              <h2 className="text-editorial-xl text-white mb-8 leading-tight">
+              <h2 className="text-editorial-xl text-white mb-4 leading-[1.1]">
                 {t('project.title')}
               </h2>
               
@@ -90,7 +90,7 @@ export function ProjectSection() {
               </p>
 
               {/* Features Grid */}
-              <div className="grid grid-cols-2 gap-4 mb-8">
+              <div className="grid grid-cols-2 gap-3 mb-8">
                 {features.map((feature, index) => (
                   <motion.div
                     key={index}
@@ -99,7 +99,7 @@ export function ProjectSection() {
                     transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
                     className="flex items-center gap-3"
                   >
-                    <div className="w-2 h-2 rounded-full bg-sky-light" />
+                    <Check size={16} className="text-sky-light flex-shrink-0" />
                     <span className="text-white/90 font-light">{feature}</span>
                   </motion.div>
                 ))}

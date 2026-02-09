@@ -40,6 +40,14 @@ export function WhiteBoxSection() {
         ? 'Modern communications and premium-class ventilation'
         : 'Modern iletişim ve premium sınıf havalandırma',
     },
+    {
+      title: language === 'ru' ? 'Панорамное остекление и шумоизоляция' : language === 'en' ? 'Panoramic Glazing & Soundproofing' : 'Panoramik Cam ve Ses Yalıtımı',
+      description: language === 'ru' 
+        ? 'Панорамные окна от пола до потолка с энергосберегающими стеклопакетами и полной шумоизоляцией'
+        : language === 'en' 
+        ? 'Floor-to-ceiling panoramic windows with energy-saving double glazing and full soundproofing'
+        : 'Enerji tasarruflu çift camlı ve tam ses yalıtımlı yerden tavana panoramik pencereler',
+    },
   ];
 
   return (
@@ -59,7 +67,7 @@ export function WhiteBoxSection() {
 
       <div className="relative z-10 section-editorial">
         <div className="container-wide">
-          <div className="grid lg:grid-cols-2 gap-16 items-center">
+          <div className="grid lg:grid-cols-2 gap-16 items-start">
             {/* Content */}
             <motion.div
               initial={{ opacity: 0, y: 40 }}
@@ -84,7 +92,7 @@ export function WhiteBoxSection() {
               initial={{ opacity: 0, y: 40 }}
               animate={isInView ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 0.8, delay: 0.2 }}
-              className="grid grid-cols-2 gap-6"
+              className="grid grid-cols-1 sm:grid-cols-2 gap-5"
             >
               {features.map((feature, index) => (
                 <motion.div
@@ -92,7 +100,9 @@ export function WhiteBoxSection() {
                   initial={{ opacity: 0, y: 20 }}
                   animate={isInView ? { opacity: 1, y: 0 } : {}}
                   transition={{ duration: 0.5, delay: 0.3 + index * 0.1 }}
-                  className="p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors"
+                  className={`p-6 rounded-2xl bg-white/5 backdrop-blur-sm border border-white/10 hover:bg-white/10 transition-colors ${
+                    index === features.length - 1 && features.length % 2 !== 0 ? 'sm:col-span-2' : ''
+                  }`}
                 >
                   <h3 className="font-editorial text-xl text-white mb-3">
                     {feature.title}

@@ -1,6 +1,7 @@
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
+import { Check } from 'lucide-react';
 import ikyGroupOffice from '@/assets/iky-group-office.jpg';
 
 export function DeveloperSection() {
@@ -17,7 +18,6 @@ export function DeveloperSection() {
 
   return (
     <section ref={ref} className="relative overflow-hidden">
-      {/* Background — IKY Group Office Photo - More visible */}
       <div className="absolute inset-0">
         <motion.img
           src={ikyGroupOffice}
@@ -27,14 +27,13 @@ export function DeveloperSection() {
           animate={isInView ? { scale: 1 } : {}}
           transition={{ duration: 1.5, ease: [0.4, 0, 0.2, 1] }}
         />
-        {/* Lighter overlay */}
         <div className="absolute inset-0 bg-gradient-to-l from-navy-900/80 via-navy-900/60 to-navy-900/50" />
       </div>
 
       <div className="relative z-10 section-editorial">
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24 items-center">
-            {/* Stats Card - with solid dark backdrop */}
+            {/* Stats Card */}
             <motion.div
               initial={{ opacity: 0, x: -40 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -60,10 +59,10 @@ export function DeveloperSection() {
                       transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
                       className="text-center p-5 rounded-2xl bg-white/10 border border-white/20"
                     >
-                      <span className="font-editorial text-3xl md:text-4xl text-sky-light font-bold block mb-1">
+                      <span className="font-editorial text-3xl md:text-4xl text-white font-bold block mb-1">
                         {stat.value}
                       </span>
-                      <span className="text-white text-sm">
+                      <span className="text-white/70 text-sm font-light">
                         {stat.label}
                       </span>
                     </motion.div>
@@ -89,15 +88,18 @@ export function DeveloperSection() {
 
               <div className="space-y-4 mb-10">
                 {features.map((key, index) => (
-                  <motion.p
+                  <motion.div
                     key={key}
                     initial={{ opacity: 0, x: 20 }}
                     animate={isInView ? { opacity: 1, x: 0 } : {}}
                     transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                    className="text-white/90 text-lg font-light"
+                    className="flex items-start gap-3"
                   >
-                    {t(`developer.${key}`)}
-                  </motion.p>
+                    <Check size={18} className="text-sky-light flex-shrink-0 mt-1" />
+                    <span className="text-white/90 text-lg font-light">
+                      {t(`developer.${key}`)}
+                    </span>
+                  </motion.div>
                 ))}
               </div>
 

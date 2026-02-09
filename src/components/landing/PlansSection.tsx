@@ -244,7 +244,7 @@ function VillaPlansBlock({ villa, plans, isInView, onOpenModal, delay, language,
             </h3>
             <span className={`px-4 py-2 rounded-full font-bold text-lg ${
               isDark 
-                ? 'bg-sky-light/20 text-sky-light border border-sky-light/30' 
+                ? 'bg-white/15 text-white border border-white/30' 
                 : 'bg-primary/10 text-primary'
             }`}>
               {villa.area}
@@ -254,7 +254,7 @@ function VillaPlansBlock({ villa, plans, isInView, onOpenModal, delay, language,
           <div className="grid grid-cols-2 gap-3">
             {villa.features.slice(0, 8).map((feature, index) => (
               <div key={index} className="flex items-center gap-2">
-                <Check size={16} className={`flex-shrink-0 ${isDark ? 'text-sky-light' : 'text-primary'}`} />
+                <Check size={16} className={`flex-shrink-0 ${isDark ? 'text-white' : 'text-primary'}`} />
                 <span className={`text-sm ${isDark ? 'text-white' : 'text-navy-900/80'}`}>{feature}</span>
               </div>
             ))}
@@ -264,7 +264,7 @@ function VillaPlansBlock({ villa, plans, isInView, onOpenModal, delay, language,
             <div className="grid grid-cols-2 gap-3 mt-3">
               {villa.features.slice(8).map((feature, index) => (
                 <div key={index} className="flex items-center gap-2">
-                  <Check size={16} className={`flex-shrink-0 ${isDark ? 'text-sky-light' : 'text-primary'}`} />
+                  <Check size={16} className={`flex-shrink-0 ${isDark ? 'text-white' : 'text-primary'}`} />
                   <span className={`text-sm ${isDark ? 'text-white' : 'text-navy-900/80'}`}>{feature}</span>
                 </div>
               ))}

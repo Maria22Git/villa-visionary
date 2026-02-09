@@ -25,15 +25,7 @@ export function FAQSection() {
   ];
 
   return (
-    <section id="faq" ref={ref} className="relative overflow-hidden">
-      {/* Background — Subtle gradient */}
-      <div className="absolute inset-0 bg-gradient-hero" />
-      
-      {/* Subtle decorative layers */}
-      <div className="absolute inset-0 pointer-events-none">
-        <div className="absolute top-0 left-0 w-full h-48 bg-gradient-to-b from-background to-transparent" />
-      </div>
-
+    <section id="faq" ref={ref} className="relative overflow-hidden bg-gradient-hero">
       <div className="relative z-10 section-editorial">
         <div className="container-wide">
           <div className="grid lg:grid-cols-2 gap-16 lg:gap-24">
@@ -93,10 +85,10 @@ export function FAQSection() {
                     className="bg-white/5 backdrop-blur-sm border border-white/10 rounded-2xl overflow-hidden data-[state=open]:bg-white/10 transition-colors duration-300"
                   >
                     <AccordionTrigger className="text-left font-light text-white hover:no-underline px-6 py-5">
-                      <span className="text-base leading-relaxed pr-4">{t(item.q)}</span>
+                      <span className="text-lg font-medium leading-relaxed pr-4">{t(item.q)}</span>
                     </AccordionTrigger>
                     <AccordionContent className="px-6 pb-6 text-white/60">
-                      <p className="text-base font-light leading-relaxed">{t(item.a)}</p>
+                      <p className="text-sm font-light leading-relaxed">{t(item.a)}</p>
                     </AccordionContent>
                   </AccordionItem>
                 ))}

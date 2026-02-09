@@ -4,7 +4,6 @@ import { Hero } from '@/components/landing/Hero';
 import { Benefits } from '@/components/landing/Benefits';
 import { ProjectSection } from '@/components/landing/ProjectSection';
 import { InteriorsGallery } from '@/components/landing/InteriorsGallery';
-import { PremiumFeatures } from '@/components/landing/PremiumFeatures';
 import { ArchitectSection } from '@/components/landing/ArchitectSection';
 import { CityConceptSection } from '@/components/landing/CityConceptSection';
 import { PlansSection } from '@/components/landing/PlansSection';
@@ -27,11 +26,10 @@ const Index = () => {
           <Benefits />
           <ProjectSection />
           <InteriorsGallery />
-          <PremiumFeatures />
+          <WhiteBoxSection />
           <ArchitectSection />
           <CityConceptSection />
           <PlansSection />
-          <WhiteBoxSection />
           <NatureSection />
           <SecuritySection />
           <DeveloperSection />

@@ -82,8 +82,7 @@ export function CityConceptSection() {
               alt="Location Map"
               className="absolute inset-0 w-full h-full object-cover object-center"
             />
-            {/* Very subtle gradient only at the left edge for seamless transition */}
-            <div className="absolute inset-y-0 left-0 w-24 bg-gradient-to-r from-navy-900 to-transparent" />
+            {/* Sharp edge, no gradient */}
           </motion.div>
         </div>
       </div>
