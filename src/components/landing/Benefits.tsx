@@ -55,30 +55,22 @@ export function Benefits() {
           initial={{ opacity: 0, y: 40 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.8, ease: [0.4, 0, 0.2, 1] }}
-          className="max-w-3xl mb-20"
+          className="max-w-3xl mb-12"
         >
-          <h2 className="text-section-title text-navy-900 mb-8">
+          <h2 className="text-section-title text-navy-900 mb-4">
             {t('why.title')}
           </h2>
-          <p className="text-muted-foreground text-base md:text-lg leading-relaxed">
+          <p className="text-muted-foreground text-sm md:text-base leading-relaxed">
             {t('why.description')}
           </p>
         </motion.div>
-
-        {/* Editorial Divider */}
-        <motion.div
-          initial={{ scaleX: 0 }}
-          animate={isInView ? { scaleX: 1 } : {}}
-          transition={{ duration: 1, delay: 0.3, ease: [0.4, 0, 0.2, 1] }}
-          className="h-px bg-gradient-to-r from-border via-blue-architect/30 to-transparent mb-16 origin-left"
-        />
 
         {/* Benefits Title */}
         <motion.h3
           initial={{ opacity: 0, y: 20 }}
           animate={isInView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6, delay: 0.4 }}
-          className="font-editorial text-2xl md:text-3xl text-navy-800 mb-12"
+          className="font-editorial text-2xl md:text-3xl text-navy-800 mb-10"
         >
           {t('benefits.title')}
         </motion.h3>

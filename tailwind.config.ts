@@ -89,9 +89,9 @@ export default {
         },
       },
       fontFamily: {
-        editorial: ["Cormorant Garamond", "Georgia", "serif"],
+        editorial: ["Playfair Display", "Georgia", "serif"],
         architectural: ["Inter", "system-ui", "sans-serif"],
-        display: ["Cormorant Garamond", "Georgia", "serif"],
+        display: ["Playfair Display", "Georgia", "serif"],
         body: ["Inter", "system-ui", "sans-serif"],
       },
       fontSize: {

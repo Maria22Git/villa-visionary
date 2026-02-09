@@ -9,15 +9,14 @@ export function NatureSection() {
   const { ref, isInView } = useScrollReveal({ threshold: 0.2 });
 
   const features = [
-    language === 'ru' ? 'Величественные горы Тавр' : language === 'en' ? 'Majestic Taurus Mountains' : 'Görkemli Toros Dağları',
-    language === 'ru' ? 'Хвойные леса' : language === 'en' ? 'Coniferous forests' : 'İğne yapraklı ormanlar',
-    language === 'ru' ? 'Панорамные виды на море' : language === 'en' ? 'Panoramic sea views' : 'Panoramik deniz manzaraları',
-    language === 'ru' ? 'Крепость Алании' : language === 'en' ? 'Alanya Castle' : 'Alanya Kalesi',
+    language === 'ru' ? 'Величественных гор' : language === 'en' ? 'Majestic mountains' : 'Görkemli dağlar',
+    language === 'ru' ? 'Хвойных лесов' : language === 'en' ? 'Coniferous forests' : 'İğne yapraklı ormanlar',
+    language === 'ru' ? 'Панорамных видов на море' : language === 'en' ? 'Panoramic sea views' : 'Panoramik deniz manzaraları',
+    language === 'ru' ? 'Крепость в скале' : language === 'en' ? 'Fortress in the rock' : 'Kayadaki kale',
   ];
 
   return (
     <section ref={ref} className="relative overflow-hidden">
-      {/* Full-screen Background Image */}
       <div className="absolute inset-0">
         <motion.img
           src={balconyView}
@@ -46,11 +45,15 @@ export function NatureSection() {
                 {t('nature.title')}
               </h2>
               
-              <p className="text-white/70 text-lg font-light leading-relaxed mb-10">
-                {t('nature.description')}
+              <p className="text-white/80 text-lg font-light leading-relaxed mb-6">
+                {language === 'ru' 
+                  ? 'Экологически чистый район в окружении:' 
+                  : language === 'en' 
+                  ? 'An ecologically clean area surrounded by:' 
+                  : 'Çevresinde doğal güzelliklerle çevrili ekolojik temiz bir bölge:'}
               </p>
 
-              <div className="space-y-4 mb-10">
+              <div className="space-y-3 mb-8">
                 {features.map((feature, index) => (
                   <motion.div
                     key={index}
@@ -60,13 +63,20 @@ export function NatureSection() {
                     className="flex items-center gap-3"
                   >
                     <Check size={18} className="text-white flex-shrink-0" />
-                    <span className="text-white/90 text-lg font-light">{feature}</span>
+                    <span className="text-white text-lg font-light">{feature}</span>
                   </motion.div>
                 ))}
               </div>
+
+              <p className="text-white/70 text-lg font-light italic border-l-2 border-sky-400/40 pl-5">
+                {language === 'ru' 
+                  ? 'Здесь тишина, свежий воздух и ощущение уединённого курорта' 
+                  : language === 'en' 
+                  ? 'Silence, fresh air and the feeling of a secluded resort' 
+                  : 'Sessizlik, temiz hava ve tenha bir tatil köyü hissi'}
+              </p>
             </motion.div>
 
-            {/* Right — glass card with quote */}
             <motion.div
               initial={{ opacity: 0, x: 40 }}
               animate={isInView ? { opacity: 1, x: 0 } : {}}
