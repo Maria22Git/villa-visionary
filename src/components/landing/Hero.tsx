@@ -15,7 +15,6 @@ export function Hero() {
 
   const benefits = [
     language === 'ru' ? 'Напрямую от застройщика IKY Group' : language === 'en' ? 'Directly from developer IKY Group' : 'Doğrudan IKY Group geliştiricisinden',
-    language === 'ru' ? 'Напрямую от застройщика IKY Group' : language === 'en' ? 'Directly from developer IKY Group' : 'Doğrudan IKY Group geliştiricisinden',
     language === 'ru' ? '40+ реализованных проектов' : language === 'en' ? '40+ completed projects' : '40+ tamamlanmış proje',
     language === 'ru' ? 'Беспроцентная рассрочка на 3 года' : language === 'en' ? 'Interest-free installments for 3 years' : '3 yıl faizsiz taksit',
     language === 'ru' ? 'Первоначальный взнос 30%' : language === 'en' ? '30% down payment' : '%30 peşinat',
@@ -24,22 +23,21 @@ export function Hero() {
 
   return (
     <section className="relative min-h-screen flex items-end overflow-hidden">
-      {/* Single Background Image - минимальное затенение */}
+      {/* Background Image */}
       <div className="absolute inset-0">
         <img
           src={heroImage}
           alt="Victoria Villas"
           className="absolute inset-0 w-full h-full object-cover"
         />
-        {/* Минимальный градиент слева для читаемости текста */}
         <div className="absolute inset-0 bg-gradient-to-r from-navy-900/70 via-navy-900/30 to-transparent" />
         <div className="absolute inset-0 bg-gradient-to-t from-navy-900/60 via-transparent to-transparent" />
       </div>
 
-      {/* Content - выровнено влево, внизу */}
+      {/* Content */}
       <div className="relative z-10 container-wide pb-20 md:pb-28 pt-40">
         <div className="max-w-3xl">
-          {/* Большой заголовок Victoria Villas */}
+          {/* Title */}
           <motion.h1
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
@@ -50,7 +48,7 @@ export function Hero() {
             Victoria Villas
           </motion.h1>
 
-          {/* Подзаголовок */}
+          {/* Subtitle */}
           <motion.p
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
@@ -61,26 +59,25 @@ export function Hero() {
             {language === 'ru' ? 'Виллы под гражданство Турции' : language === 'en' ? 'Villas for Turkish Citizenship' : 'Türk Vatandaşlığı İçin Villalar'}
           </motion.p>
           
-          {/* Benefits - компактный список */}
+          {/* Benefits — glass cards */}
           <motion.div
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ delay: 0.7, duration: 1 }}
             className="mb-10"
           >
-            <div className="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-3">
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
               {benefits.map((benefit, index) => (
-                <motion.p
+                <motion.div
                   key={index}
                   initial={{ opacity: 0, x: -20 }}
                   animate={{ opacity: 1, x: 0 }}
                   transition={{ delay: 0.9 + index * 0.1, duration: 0.6 }}
-                  className="text-white text-base md:text-lg font-light flex items-center gap-3"
-                  style={{ textShadow: '0 2px 10px rgba(0, 29, 57, 0.4)' }}
+                  className="p-4 rounded-xl bg-white/10 backdrop-blur-sm border border-white/15 flex items-center gap-3"
                 >
                   <span className="w-1.5 h-1.5 rounded-full bg-sky-light flex-shrink-0" />
-                  {benefit}
-                </motion.p>
+                  <span className="text-white text-sm md:text-base font-light">{benefit}</span>
+                </motion.div>
               ))}
             </div>
           </motion.div>
@@ -89,7 +86,7 @@ export function Hero() {
           <motion.div
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 1.6, duration: 0.8 }}
+            transition={{ delay: 1.5, duration: 0.8 }}
           >
             <button
               onClick={scrollToContact}
@@ -104,9 +101,6 @@ export function Hero() {
           </motion.div>
         </div>
       </div>
-
-      {/* Bottom Fade Transition */}
-      <div className="absolute bottom-0 left-0 right-0 h-24 bg-gradient-to-t from-background to-transparent" />
     </section>
   );
 }
