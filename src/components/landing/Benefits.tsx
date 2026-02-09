@@ -86,9 +86,9 @@ export function Benefits() {
               className="group relative"
             >
               <div className="relative p-6 rounded-2xl bg-white/80 backdrop-blur-sm border border-white/50 shadow-soft hover:shadow-medium transition-all duration-500 hover:-translate-y-1 h-full">
-                {/* Highlight Badge */}
-                <div className="mb-4">
-                  <span className="inline-block px-4 py-2 rounded-full bg-gradient-to-r from-primary/10 to-sky-light/20 text-primary font-bold text-lg">
+                {/* Highlight Text */}
+                <div className="mb-3">
+                  <span className="text-accent-red font-bold text-xl">
                     {benefit.highlight}
                   </span>
                 </div>

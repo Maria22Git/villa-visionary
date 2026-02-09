@@ -79,26 +79,30 @@ export function DeveloperSection() {
               className="order-1 lg:order-2"
             >
               <h2 className="text-section-title text-white mb-10">
-                {t('developer.title')}
+                {language === 'ru' ? 'IKY Group — создатель проекта' : language === 'en' ? 'IKY Group — Project Creator' : 'IKY Group — Proje Yaratıcısı'}
               </h2>
 
               {/* Features with glass backdrop */}
-              <div className="p-6 rounded-2xl bg-navy-900/40 backdrop-blur-sm border border-white/10 mb-10">
+              <div className="p-6 rounded-2xl bg-navy-900/60 backdrop-blur-md border border-white/10 mb-10">
                 <div className="space-y-4">
-                  {features.map((key, index) => (
-                    <motion.div
-                      key={key}
-                      initial={{ opacity: 0, x: 20 }}
-                      animate={isInView ? { opacity: 1, x: 0 } : {}}
-                      transition={{ duration: 0.5, delay: 0.4 + index * 0.1 }}
-                      className="flex items-start gap-3"
-                    >
-                      <Check size={18} className="text-white flex-shrink-0 mt-0.5" />
-                      <span className="text-white/90 text-lg font-light">
-                        {t(`developer.${key}`)}
-                      </span>
-                    </motion.div>
-                  ))}
+                  <motion.div initial={{ opacity: 0, x: 20 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.5, delay: 0.4 }} className="flex items-start gap-3">
+                    <Check size={18} className="text-white flex-shrink-0 mt-0.5" />
+                    <span className="text-white/90 text-lg font-light">
+                      {language === 'ru' ? 'С 2010 года на рынке Алании и Турции' : language === 'en' ? 'On the Alanya and Turkey market since 2010' : '2010\'dan beri Alanya ve Türkiye pazarında'}
+                    </span>
+                  </motion.div>
+                  <motion.div initial={{ opacity: 0, x: 20 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.5, delay: 0.5 }} className="flex items-start gap-3">
+                    <Check size={18} className="text-white flex-shrink-0 mt-0.5" />
+                    <span className="text-white/90 text-lg font-light">
+                      {language === 'ru' ? 'Строительство проектов в 100% соответствии с турецким законодательством и техническими стандартами' : language === 'en' ? 'Construction in 100% compliance with Turkish legislation and technical standards' : 'Türk mevzuatına ve teknik standartlara %100 uygunluk'}
+                    </span>
+                  </motion.div>
+                  <motion.div initial={{ opacity: 0, x: 20 }} animate={isInView ? { opacity: 1, x: 0 } : {}} transition={{ duration: 0.5, delay: 0.6 }} className="flex items-start gap-3">
+                    <Check size={18} className="text-white flex-shrink-0 mt-0.5" />
+                    <span className="text-white/90 text-lg font-light">
+                      {language === 'ru' ? 'Гарантия безопасности и легальности инвестиций' : language === 'en' ? 'Guarantee of investment safety and legality' : 'Yatırım güvenliği ve yasallık garantisi'}
+                    </span>
+                  </motion.div>
                 </div>
               </div>
 

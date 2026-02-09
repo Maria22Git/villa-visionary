@@ -74,16 +74,14 @@ export function CityConceptSection() {
                 </motion.div>
               </div>
 
-              {/* 15-minute concept badge */}
-              <div className="inline-flex items-center gap-4 p-5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 w-fit">
-                <div className="text-center">
-                  <span className="font-editorial text-4xl text-sky-light block">15</span>
-                  <span className="text-xs text-white/60 tracking-widest uppercase">
-                    {language === 'ru' ? 'минут' : language === 'en' ? 'minutes' : 'dakika'}
-                  </span>
-                </div>
-                <p className="text-white/80 text-sm font-light max-w-[200px]">
-                  {t('city.ecosystem')}
+              {/* Location badge */}
+              <div className="p-5 rounded-2xl bg-white/10 backdrop-blur-sm border border-white/15 w-fit">
+                <p className="text-white text-sm font-light uppercase tracking-widest">
+                  {language === 'ru' 
+                    ? 'Victoria Villas расположены в престижном районе Оба' 
+                    : language === 'en' 
+                    ? 'Victoria Villas are located in the prestigious Oba district' 
+                    : 'Victoria Villas prestijli Oba bölgesinde yer almaktadır'}
                 </p>
               </div>
             </motion.div>
