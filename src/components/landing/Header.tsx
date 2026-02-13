@@ -64,7 +64,7 @@ export function Header() {
               <button
                 key={item.key}
                 onClick={() => scrollToSection(item.href)}
-                className={`relative px-5 py-2.5 text-sm font-light tracking-wide transition-all duration-500 rounded-full ${
+                className={`relative px-5 py-2.5 text-[15px] font-normal tracking-wide transition-all duration-500 rounded-full ${
                   isScrolled
                     ? 'text-navy-800 hover:text-navy-900 hover:bg-muted'
                     : 'text-white/80 hover:text-white hover:bg-white/10'
