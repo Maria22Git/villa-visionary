@@ -1,4 +1,4 @@
-import { useState, useEffect, useCallback } from 'react';
+import { useState } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
 import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
@@ -21,7 +21,6 @@ interface GalleryImage {
 export function InteriorsGallery() {
   const { language } = useLanguage();
   const { ref, isInView } = useScrollReveal({ threshold: 0.1 });
-  const [currentIndex, setCurrentIndex] = useState(0);
   const [selectedImage, setSelectedImage] = useState<number | null>(null);
 
   const categories = {
@@ -42,21 +41,6 @@ export function InteriorsGallery() {
     { src: bedroom4, category: cat.bedroom },
   ];
 
-  const goNext = useCallback(() => {
-    setCurrentIndex((prev) => (prev + 1) % images.length);
-  }, [images.length]);
-
-  const goPrev = useCallback(() => {
-    setCurrentIndex((prev) => (prev - 1 + images.length) % images.length);
-  }, [images.length]);
-
-  // Auto-play every 2 seconds
-  useEffect(() => {
-    if (selectedImage !== null) return;
-    const interval = setInterval(goNext, 2000);
-    return () => clearInterval(interval);
-  }, [goNext, selectedImage]);
-
   const navigateLightbox = (direction: 'prev' | 'next') => {
     if (selectedImage === null) return;
     const newIndex = direction === 'next' 
@@ -64,17 +48,6 @@ export function InteriorsGallery() {
       : (selectedImage - 1 + images.length) % images.length;
     setSelectedImage(newIndex);
   };
-
-  // Show 3 images on desktop, 1 on mobile
-  const getVisibleIndices = () => {
-    const indices = [];
-    for (let i = -1; i <= 1; i++) {
-      indices.push((currentIndex + i + images.length) % images.length);
-    }
-    return indices;
-  };
-
-  const visibleIndices = getVisibleIndices();
 
   return (
     <section ref={ref} className="section-editorial bg-background relative overflow-hidden">
@@ -100,93 +73,73 @@ export function InteriorsGallery() {
           </h2>
         </motion.div>
 
-        {/* Carousel */}
-        <div className="relative">
-          {/* Navigation Buttons */}
-          <button
-            onClick={goPrev}
-            className="absolute left-0 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/80 backdrop-blur-sm shadow-lg hover:bg-white transition-colors -translate-x-1/2 md:translate-x-0"
+        {/* Masonry Grid */}
+        <div className="grid grid-cols-2 md:grid-cols-4 gap-4 auto-rows-[200px] md:auto-rows-[220px]">
+          {/* Large featured image — spans 2 cols, 2 rows */}
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.1 }}
+            onClick={() => setSelectedImage(0)}
+            className="col-span-2 row-span-2 group relative overflow-hidden rounded-2xl"
           >
-            <ChevronLeft size={22} className="text-navy-900" />
-          </button>
-          <button
-            onClick={goNext}
-            className="absolute right-0 top-1/2 -translate-y-1/2 z-20 p-3 rounded-full bg-white/80 backdrop-blur-sm shadow-lg hover:bg-white transition-colors translate-x-1/2 md:translate-x-0"
-          >
-            <ChevronRight size={22} className="text-navy-900" />
-          </button>
+            <img src={images[0].src} alt={images[0].category} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-navy-900/0 group-hover:bg-navy-900/20 transition-colors duration-500" />
+          </motion.button>
 
-          {/* Images */}
-          <div className="overflow-hidden mx-8 md:mx-12">
-            <div className="flex gap-4">
-              {/* Mobile: 1 image, Desktop: 3 images */}
-              <div className="hidden md:flex gap-4 w-full">
-                {visibleIndices.map((imgIndex, i) => (
-                  <motion.button
-                    key={`${imgIndex}-${i}`}
-                    initial={{ opacity: 0 }}
-                    animate={{ opacity: 1 }}
-                    transition={{ duration: 0.5 }}
-                    onClick={() => setSelectedImage(imgIndex)}
-                    className={`group relative overflow-hidden rounded-2xl flex-1 ${
-                      i === 1 ? 'aspect-[4/3]' : 'aspect-[4/3] opacity-80 hover:opacity-100'
-                    } transition-opacity duration-300`}
-                  >
-                    <img
-                      src={images[imgIndex].src}
-                      alt={images[imgIndex].category}
-                      className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
-                    />
-                    <div className="absolute inset-0 bg-navy-900/0 group-hover:bg-navy-900/30 transition-colors duration-500" />
-                    <div className="absolute bottom-4 left-4 opacity-0 group-hover:opacity-100 transition-opacity duration-300">
-                      <span className="px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm text-navy-900 text-xs font-medium tracking-wide">
-                        {images[imgIndex].category}
-                      </span>
-                    </div>
-                  </motion.button>
-                ))}
-              </div>
-              
-              {/* Mobile: single image */}
-              <div className="md:hidden w-full">
-                <AnimatePresence mode="wait">
-                  <motion.button
-                    key={currentIndex}
-                    initial={{ opacity: 0, x: 50 }}
-                    animate={{ opacity: 1, x: 0 }}
-                    exit={{ opacity: 0, x: -50 }}
-                    transition={{ duration: 0.3 }}
-                    onClick={() => setSelectedImage(currentIndex)}
-                    className="group relative overflow-hidden rounded-2xl w-full aspect-[4/3]"
-                  >
-                    <img
-                      src={images[currentIndex].src}
-                      alt={images[currentIndex].category}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute bottom-4 left-4">
-                      <span className="px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm text-navy-900 text-xs font-medium tracking-wide">
-                        {images[currentIndex].category}
-                      </span>
-                    </div>
-                  </motion.button>
-                </AnimatePresence>
-              </div>
+          {/* Top right pair */}
+          {[1, 2].map((i) => (
+            <motion.button
+              key={i}
+              initial={{ opacity: 0, y: 20 }}
+              animate={isInView ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 0.6, delay: 0.15 + i * 0.08 }}
+              onClick={() => setSelectedImage(i)}
+              className="group relative overflow-hidden rounded-2xl"
+            >
+              <img src={images[i].src} alt={images[i].category} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+              <div className="absolute inset-0 bg-navy-900/0 group-hover:bg-navy-900/20 transition-colors duration-500" />
+            </motion.button>
+          ))}
+
+          {/* Bottom row — tall center image + two small ones */}
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.35 }}
+            onClick={() => setSelectedImage(5)}
+            className="group relative overflow-hidden rounded-2xl"
+          >
+            <img src={images[5].src} alt={images[5].category} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-navy-900/0 group-hover:bg-navy-900/20 transition-colors duration-500" />
+          </motion.button>
+
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.4 }}
+            onClick={() => setSelectedImage(3)}
+            className="col-span-1 row-span-2 group relative overflow-hidden rounded-2xl"
+          >
+            <img src={images[3].src} alt={images[3].category} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-navy-900/0 group-hover:bg-navy-900/20 transition-colors duration-500" />
+            <div className="absolute bottom-4 left-4">
+              <span className="px-4 py-2 rounded-full bg-white/90 backdrop-blur-sm text-navy-900 text-xs font-medium tracking-wide">
+                {images[3].category}
+              </span>
             </div>
-          </div>
+          </motion.button>
 
-          {/* Dots */}
-          <div className="flex justify-center gap-2 mt-6">
-            {images.map((_, index) => (
-              <button
-                key={index}
-                onClick={() => setCurrentIndex(index)}
-                className={`w-2 h-2 rounded-full transition-all duration-300 ${
-                  currentIndex === index ? 'bg-primary w-6' : 'bg-navy-900/20 hover:bg-navy-900/40'
-                }`}
-              />
-            ))}
-          </div>
+          <motion.button
+            initial={{ opacity: 0, y: 20 }}
+            animate={isInView ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.6, delay: 0.45 }}
+            onClick={() => setSelectedImage(4)}
+            className="group relative overflow-hidden rounded-2xl"
+          >
+            <img src={images[4].src} alt={images[4].category} className="w-full h-full object-cover transition-transform duration-700 group-hover:scale-105" />
+            <div className="absolute inset-0 bg-navy-900/0 group-hover:bg-navy-900/20 transition-colors duration-500" />
+          </motion.button>
         </div>
       </div>
 

@@ -1,6 +1,6 @@
 import { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion, AnimatePresence } from 'framer-motion';
+import { motion } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import villaAerial from '@/assets/villa-exterior-new.png';
@@ -152,29 +152,21 @@ export function ProjectSection() {
               </div>
             </div>
 
-            {/* Slider */}
-            <div className="relative overflow-hidden rounded-2xl">
-              <AnimatePresence mode="wait">
-                <motion.div
-                  key={currentSlide}
-                  initial={{ opacity: 0, x: 60 }}
-                  animate={{ opacity: 1, x: 0 }}
-                  exit={{ opacity: 0, x: -60 }}
-                  transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
-                  className="w-full"
-                >
-                  <div className="aspect-[21/9] relative">
-                    <img
-                      src={galleryImages[currentSlide].src}
-                      alt={galleryImages[currentSlide].label}
-                      className="w-full h-full object-cover"
-                    />
-                    <div className="absolute bottom-4 left-4 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm">
-                      {galleryImages[currentSlide].label}
-                    </div>
-                  </div>
-                </motion.div>
-              </AnimatePresence>
+            {/* Slider — crossfade only, no movement */}
+            <div className="relative overflow-hidden rounded-2xl aspect-[21/9]">
+              {galleryImages.map((image, index) => (
+                <img
+                  key={index}
+                  src={image.src}
+                  alt={image.label}
+                  className={`absolute inset-0 w-full h-full object-cover transition-opacity duration-1000 ease-in-out ${
+                    currentSlide === index ? 'opacity-100 z-10' : 'opacity-0 z-0'
+                  }`}
+                />
+              ))}
+              <div className="absolute bottom-4 left-4 z-20 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm">
+                {galleryImages[currentSlide].label}
+              </div>
             </div>
 
             {/* Dots */}
