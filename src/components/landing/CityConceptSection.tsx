@@ -40,7 +40,15 @@ export function CityConceptSection() {
                 {t('city.title')}
               </h2>
 
-              <div className="space-y-5 mb-8">
+              <p className="text-white/80 text-lg font-light leading-relaxed mb-8">
+                {language === 'ru' 
+                  ? 'Все ключевые элементы благополучной жизни находятся рядом с вашей виллой.'
+                  : language === 'en'
+                  ? 'All key elements of a prosperous life are close to your villa.'
+                  : 'İyi bir yaşamın tüm temel unsurları villanızın yakınında.'}
+              </p>
+
+              <div className="space-y-4 mb-8">
                 <motion.div 
                   initial={{ opacity: 0, x: 20 }}
                   animate={isInView ? { opacity: 1, x: 0 } : {}}
@@ -51,7 +59,7 @@ export function CityConceptSection() {
                     <MapPin size={18} className="text-white" />
                   </div>
                   <span className="text-white text-lg font-light">
-                    {t('city.center')}
+                    {language === 'ru' ? '15 минут до центра Алании' : language === 'en' ? '15 minutes to the center of Alanya' : 'Alanya merkezine 15 dakika'}
                   </span>
                 </motion.div>
                 
@@ -66,10 +74,10 @@ export function CityConceptSection() {
                   </div>
                   <span className="text-white text-lg font-light">
                     {language === 'ru' 
-                      ? 'Все необходимое в пешей доступности' 
+                      ? 'Школы, колледжи, магазины, медицина, пляжи — в быстрой доступности' 
                       : language === 'en' 
-                      ? 'Everything you need within walking distance' 
-                      : 'İhtiyacınız olan her şey yürüme mesafesinde'}
+                      ? 'Schools, colleges, shops, healthcare, beaches — quickly accessible' 
+                      : 'Okullar, kolejler, mağazalar, sağlık, plajlar — hızlı erişim'}
                   </span>
                 </motion.div>
               </div>

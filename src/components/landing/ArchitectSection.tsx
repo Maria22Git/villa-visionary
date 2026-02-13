@@ -57,11 +57,11 @@ export function ArchitectSection() {
               {/* Decorative background element */}
               <div className="absolute -inset-4 bg-gradient-to-br from-primary/10 to-sky-light/10 rounded-3xl -z-10" />
               
-              <div className="relative rounded-2xl overflow-hidden w-64 md:w-72 lg:w-80 shadow-large">
+              <div className="relative rounded-2xl overflow-hidden w-72 md:w-80 lg:w-[420px] shadow-large">
                 <img
                   src={ibrahimBey}
                   alt="İbrahim Bey"
-                  className="w-full aspect-[3/4] object-cover object-top"
+                  className="w-full aspect-[4/5] object-cover object-top"
                 />
                 {/* Subtle Overlay */}
                 <div className="absolute inset-0 bg-gradient-to-t from-navy-900/40 to-transparent" />
