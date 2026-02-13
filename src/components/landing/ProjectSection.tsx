@@ -1,6 +1,6 @@
-import { useState } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useLanguage } from '@/contexts/LanguageContext';
-import { motion } from 'framer-motion';
+import { motion, AnimatePresence } from 'framer-motion';
 import { useScrollReveal } from '@/hooks/useScrollReveal';
 import { ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import villaAerial from '@/assets/villa-exterior-new.png';
@@ -39,13 +39,19 @@ export function ProjectSection() {
     { src: mountainsPanorama, label: language === 'ru' ? 'Панорама гор' : language === 'en' ? 'Mountain Panorama' : 'Dağ Panoraması' },
   ];
 
-  const nextSlide = () => {
+  const nextSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev + 1) % galleryImages.length);
-  };
+  }, [galleryImages.length]);
 
-  const prevSlide = () => {
+  const prevSlide = useCallback(() => {
     setCurrentSlide((prev) => (prev - 1 + galleryImages.length) % galleryImages.length);
-  };
+  }, [galleryImages.length]);
+
+  // Auto-play every 2 seconds
+  useEffect(() => {
+    const interval = setInterval(nextSlide, 2000);
+    return () => clearInterval(interval);
+  }, [nextSlide]);
 
   return (
     <section 
@@ -148,25 +154,27 @@ export function ProjectSection() {
 
             {/* Slider */}
             <div className="relative overflow-hidden rounded-2xl">
-              <div 
-                className="flex transition-transform duration-500 ease-out"
-                style={{ transform: `translateX(-${currentSlide * 100}%)` }}
-              >
-                {galleryImages.map((image, index) => (
-                  <div key={index} className="w-full flex-shrink-0">
-                    <div className="aspect-[21/9] relative">
-                      <img
-                        src={image.src}
-                        alt={image.label}
-                        className="w-full h-full object-cover"
-                      />
-                      <div className="absolute bottom-4 left-4 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm">
-                        {image.label}
-                      </div>
+              <AnimatePresence mode="wait">
+                <motion.div
+                  key={currentSlide}
+                  initial={{ opacity: 0, x: 60 }}
+                  animate={{ opacity: 1, x: 0 }}
+                  exit={{ opacity: 0, x: -60 }}
+                  transition={{ duration: 0.6, ease: [0.4, 0, 0.2, 1] }}
+                  className="w-full"
+                >
+                  <div className="aspect-[21/9] relative">
+                    <img
+                      src={galleryImages[currentSlide].src}
+                      alt={galleryImages[currentSlide].label}
+                      className="w-full h-full object-cover"
+                    />
+                    <div className="absolute bottom-4 left-4 px-4 py-2 rounded-full bg-white/10 backdrop-blur-sm text-white text-sm">
+                      {galleryImages[currentSlide].label}
                     </div>
                   </div>
-                ))}
-              </div>
+                </motion.div>
+              </AnimatePresence>
             </div>
 
             {/* Dots */}

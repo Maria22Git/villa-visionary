@@ -53,7 +53,7 @@ export function Hero() {
             initial={{ opacity: 0, y: 20 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ delay: 0.5, duration: 0.8 }}
-            className="text-white/80 text-lg md:text-xl uppercase tracking-[0.25em] font-light mb-4"
+            className="text-white/70 text-sm md:text-base uppercase tracking-widest font-light mb-2"
             style={{ textShadow: '0 2px 15px rgba(0, 29, 57, 0.4)' }}
           >
             {language === 'ru' ? 'Виллы под гражданство Турции' : language === 'en' ? 'Villas for Turkish Citizenship' : 'Türk Vatandaşlığı İçin Villalar'}

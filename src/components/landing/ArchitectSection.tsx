@@ -57,7 +57,7 @@ export function ArchitectSection() {
               {/* Decorative background element */}
               <div className="absolute -inset-4 bg-gradient-to-br from-primary/10 to-sky-light/10 rounded-3xl -z-10" />
               
-              <div className="relative rounded-2xl overflow-hidden w-72 md:w-80 lg:w-[420px] shadow-large">
+              <div className="relative rounded-2xl overflow-hidden w-80 md:w-96 lg:w-[520px] shadow-large">
                 <img
                   src={ibrahimBey}
                   alt="İbrahim Bey"
